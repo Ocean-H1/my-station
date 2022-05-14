@@ -27,7 +27,7 @@
       <h3>服务电话</h3>
       <div class="icons">
         <img src="~@/assets/img/tubiao.jpg" alt="">
-        <p>400-858-3030</p>
+        <p>xxx-xxx-xxxx</p>
       </div>
       <div>
         <small>

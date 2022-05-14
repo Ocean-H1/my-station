@@ -24,7 +24,6 @@
       </div>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -36,7 +35,7 @@ export default {
       this.$router.push({
         path: '/help',
         query: {
-          choice
+          choice,
         },
       })
     },

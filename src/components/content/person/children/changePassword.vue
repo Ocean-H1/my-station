@@ -29,11 +29,13 @@
               ></el-input>
             </el-form-item>
 
-            <el-form-item>
-              <el-button style="width: 100%" type="danger" @click="_setPassword"
-                >提 交</el-button
-              >
-            </el-form-item>
+            <el-button
+              style="width: 50%"
+              type="danger"
+              @click="_setPassword"
+              class="submitBtn"
+              >提 交</el-button
+            >
           </el-form>
         </div>
       </div>
@@ -103,7 +105,7 @@ export default {
         // 刷新页面
         if (this.$route.path == '/first') {
           this.$router.go(0)
-        }else {
+        } else {
           this.$router.push('/first')
         }
       })
@@ -116,5 +118,15 @@ export default {
 .form {
   width: 40%;
   margin: 120px auto;
+}
+.el-form {
+  display: flex;
+  flex-direction: column;
+}
+.submitBtn {
+  letter-spacing: 0.5em;
+  font-size: 1.1em;
+  text-align: center;
+  margin: 0 auto;
 }
 </style>

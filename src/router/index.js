@@ -18,7 +18,6 @@ VueRouter.prototype.replace = function push(location, onResolve, onReject) {
 
 // 路由懒加载
 const First = () => import('../views/first/first.vue')
-const ticketquery = () => import('../views/Ticket-query/ticket-query.vue')
 const refund = () => import('../views/refund/refund.vue')
 const help = () => import('../views/help/help.vue')
 const advise = () => import('../views/advise/advise.vue')
@@ -28,12 +27,6 @@ const Login = () => import('@/components/content/Login/login.vue')
 const Register = () => import('@/components/content/Register/register')
 // 找回密码
 const reback = () => import('@/components/content/rebackPsd/rebackPsd.vue')
-const Placeorder = () => import('../components/content/query/place-order.vue')
-const Confirm = () => import('../views/confirm/confirm.vue')
-const QRcode = () => import('../components/content/query/QRcode.vue')
-const Success = () => import('../views/success/success.vue')
-const Menglogin = () => import('../components/content/mengceng/denglu.vue')
-const Yanzheng = () => import('../components/content/mengceng/yanzheng.vue')
 // 后台管理模块相关组件
 const shiftModule = () => import('../components/content/adminModule/shiftModule.vue')
 const ticketModule = () => import('../components/content/adminModule/ticketModule.vue')
@@ -82,13 +75,6 @@ const routes = [
     }
   },
   {
-    path: '/ticketquery',
-    component: ticketquery,
-    meta: {
-      title: '车票查询'
-    }
-  },
-  {
     path: '/stationMap',
     component: StaionMap,
     meta: {
@@ -114,50 +100,6 @@ const routes = [
     component: Register,
     meta: {
       title: '注册'
-    }
-  },
-  {
-    path: '/placeorder',
-    component: Placeorder,
-    meta: {
-      title: '提交订单',
-      // 需要登录
-      isNeedLogin: true,
-    }
-  },
-  {
-    path: '/confirm',
-    component: Confirm,
-    meta: {
-      title: '确认并支付',
-      isNeedLogin: true,
-    }
-  },
-  {
-    path: '/qrcode',
-    component: QRcode,
-    meta: {
-      title: '付款界面',
-      isNeedLogin: true,
-    }
-  }, {
-    path: '/success',
-    component: Success,
-    meta: {
-      title: '购票成功',
-      isNeedLogin: true,
-    }
-  }, {
-    path: '/menglogin',
-    component: Menglogin,
-    meta: {
-      title: '蒙层登录'
-    }
-  }, {
-    path: '/yanzheng',
-    component: Yanzheng,
-    meta: {
-      title: '蒙层验证'
     }
   },
   {

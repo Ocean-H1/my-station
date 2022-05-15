@@ -191,13 +191,23 @@ export default {
     // 查询车票
     QueryTickets() {
       // 表单验证
-      this.$refs.QueryFormRef.validate((valid) => {
+      this.$refs.QueryFormRef.validate(async (valid) => {
         if (!valid) return
-
-        // 携带处理过的的参数跳转页面
+        const {data: res } = await this.$http.get(`/query/shuttle/getShuttleList`,{
+          params: {
+            start_region_id: this.QueryForm.start_region_id,
+            final_region_id: this.QueryForm.final_region_id,
+            shuttle_shift_date: this.QueryForm.shuttle_shift_date
+          }
+        })
+        if(res.code !== 10000 ){
+          return this.$message.error(res.message)
+        }
+        
+        // 发送符合查询条件的班次
         this.$router.push({
           path: '/ticketquery',
-          query: this.QueryForm,
+          query: res.data,
         })
       })
     },

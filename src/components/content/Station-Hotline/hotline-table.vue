@@ -65,9 +65,8 @@ export default {
   },
   methods: {
     showqueryheader(info) {
-      console.log(info);
       this.$router.push({
-        path: '/ticketquery',
+        path: '/purchase',
         query: {
           info,
           choice: this.choice

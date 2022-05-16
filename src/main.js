@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import store from './store/store'
+import moment from 'moment'
 
 // 引入ElementUi
 import ElementUi from 'element-ui'
@@ -22,7 +23,7 @@ Vue.config.productionTip = false
 Vue.prototype.$http = axios
 // 全局挂载
 Vue.prototype.$utils = utils
-// Vue.prototype.$http = axios
+Vue.prototype.$moment = moment
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://station.xuptdata.com'
 // 设置request拦截器，在请求之前添加sessionid，展示进度条
@@ -38,11 +39,9 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((res) => {
   // 关闭进度条
   NProgress.done()
-  if (res.data.code && res.data.code !== 10000) {
-    // ElementUi.Message.error(res.data.message)
-  }
   return res
 })
+
 new Vue({
   router,
   render: (h) => h(App),

@@ -13,7 +13,7 @@
         <HotlineTable :choice="activeName"></HotlineTable>
       </el-tab-pane>
       <el-tab-pane name="third">
-        <span slot="label">{{ timeArray[2] }}</span>
+        <span slot="label">{{getCurrentDate(2)}}</span>
         <HotlineTable :choice="activeName"></HotlineTable>
       </el-tab-pane>
     </el-tabs>
@@ -32,21 +32,10 @@ export default {
     }
   },
   computed: {
-    // 拿到日期
-    timeArray: function () {
-      let dateTime = new Date()
-      //   年
-      let year = dateTime.getFullYear()
-      //   月
-      let month = dateTime.getMonth() + 1
-      //   日
-      let date = dateTime.getDate()
-      
-      let timeArray = []
-      for (let i = 0; i < 3; i++) {
-        timeArray[i] = month + '月' + (date + i) + '日'
+    getCurrentDate() {
+      return function (num) {
+        return this.$moment().add(num, 'days').format('MM月DD日')
       }
-      return timeArray
     },
   },
   methods: {},

@@ -25,6 +25,8 @@ const about = () => import('../views/about/about.vue')
 const StaionMap = () => import('../views/stationMap/stationMap.vue')
 const Login = () => import('@/components/content/Login/login.vue')
 const Register = () => import('@/components/content/Register/register')
+const purchase = () => import('../views/purchase/purchase.vue')
+const searchTicket = () => import('../views/purchase/components/searchTicket.vue')
 // 找回密码
 const reback = () => import('@/components/content/rebackPsd/rebackPsd.vue')
 // 后台管理模块相关组件
@@ -174,6 +176,22 @@ const routes = [
       },
       component: () => import('@/components/content/person/children/refundOrder'),
     },
+    ]
+  },
+  {
+    path: '/purchase',
+    component: purchase,
+    meta: {
+      title: '购票'
+    },
+    children: [
+      {
+        path:'',
+        component: searchTicket,
+        meta: {
+          title: '购票 | 查询车票'
+        }
+      },
     ]
   },
   {

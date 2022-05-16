@@ -206,7 +206,7 @@ export default {
         
         // 发送符合查询条件的班次
         this.$router.push({
-          path: '/ticketquery',
+          path: '/purchase',
           query: res.data,
         })
       })

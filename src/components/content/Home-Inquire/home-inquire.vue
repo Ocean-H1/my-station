@@ -21,7 +21,7 @@
             >
               <i slot="append">区/县</i>
               <template slot-scope="{ item }">
-                <div class="cityName">{{ item.city_name + '市：'}}</div>
+                <div class="cityName">{{ item.city_name + '市：' }}</div>
                 <div class="regionName">{{ item.region_name }}</div>
               </template>
             </el-autocomplete>
@@ -37,7 +37,7 @@
             >
               <i slot="append">区/县</i>
               <template slot-scope="{ item }">
-                <div class="cityName">{{ item.city_name + '市：'}}</div>
+                <div class="cityName">{{ item.city_name + '市：' }}</div>
                 <div class="regionName">{{ item.region_name }}</div>
               </template>
             </el-autocomplete>
@@ -136,11 +136,11 @@ export default {
             trigger: 'change',
             validator: validatePass,
           },
-          {required:'true',message:'请输入目的地',trigger:'blur'}
+          { required: 'true', message: '请输入目的地', trigger: 'blur' },
         ],
         // 目的地
         final_name: [
-         {
+          {
             message: '请选择有效的城市！',
             trigger: 'change',
             validator: validatePass,
@@ -150,9 +150,9 @@ export default {
             trigger: 'blur',
             validator: validatePass,
           },
-          {required:'true',message:'请输入目的地',trigger:'blur'}
+          { required: 'true', message: '请输入目的地', trigger: 'blur' },
         ],
-        
+
         // 乘车时间
         shuttle_shift_date: [
           { required: true, message: '请选择乘车日期', trigger: 'blur' },
@@ -193,21 +193,23 @@ export default {
       // 表单验证
       this.$refs.QueryFormRef.validate(async (valid) => {
         if (!valid) return
-        const {data: res } = await this.$http.get(`/query/shuttle/getShuttleList`,{
-          params: {
-            start_region_id: this.QueryForm.start_region_id,
-            final_region_id: this.QueryForm.final_region_id,
-            shuttle_shift_date: this.QueryForm.shuttle_shift_date
-          }
-        })
-        if(res.code !== 10000 ){
-          return this.$message.error(res.message)
+        // 修改车票查询页面的默认状态
+        let status = {
+          shuttle_shift_date: this.QueryForm.shuttle_shift_date,
+          startDate: this.$moment(this.QueryForm.shuttle_shift_date),
+          activeTab: this.$moment(this.QueryForm.shuttle_shift_date).format('MM-DD'),
         }
-        
-        // 发送符合查询条件的班次
+        // 传递给车票查询页面的参数
+        let info =JSON.stringify({
+          start_region_id: this.QueryForm.start_region_id,
+          final_region_id: this.QueryForm.final_region_id,
+        })
+        this.$store.commit('setSearchStatus',status)
         this.$router.push({
           path: '/purchase',
-          query: res.data,
+          query: {
+            info,
+          },
         })
       })
     },

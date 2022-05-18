@@ -51,12 +51,6 @@
 <script>
 export default {
   name: 'hotlineTable',
-  props: {
-    'choice':{
-      type: String,
-      default: 'first'
-    }
-  },
   data() {
     return {
       lineList1: [],
@@ -68,8 +62,7 @@ export default {
       this.$router.push({
         path: '/purchase',
         query: {
-          info,
-          choice: this.choice
+          info: JSON.stringify(info),
         }
       })
     },

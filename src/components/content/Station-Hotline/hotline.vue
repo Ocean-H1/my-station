@@ -5,18 +5,14 @@
       <div>热门线路</div>
     </div>
     <!-- tabs标签页 -->
-    <el-tabs stretch v-model="activeName">
-      <el-tab-pane name="first" label="今日">
-        <HotlineTable :choice="activeName"></HotlineTable>
-      </el-tab-pane>
-      <el-tab-pane name="second" label="明日">
-        <HotlineTable :choice="activeName"></HotlineTable>
-      </el-tab-pane>
-      <el-tab-pane name="third">
-        <span slot="label">{{getCurrentDate(2)}}</span>
-        <HotlineTable :choice="activeName"></HotlineTable>
+    <el-tabs stretch v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane :name="getCurrentDate(0)" label="今日"> </el-tab-pane>
+      <el-tab-pane :name="getCurrentDate(1)" label="明日"> </el-tab-pane>
+      <el-tab-pane :name="getCurrentDate(2)">
+        <span slot="label">{{ getCurrentDate(2) }}</span>
       </el-tab-pane>
     </el-tabs>
+    <HotlineTable></HotlineTable>
   </div>
 </template>
 
@@ -28,17 +24,36 @@ export default {
   name: 'hotline',
   data() {
     return {
-      activeName: 'first',
+      activeName: this.$moment().format('MM-DD'),
     }
   },
   computed: {
     getCurrentDate() {
       return function (num) {
-        return this.$moment().add(num, 'days').format('MM月DD日')
+        return this.$moment().add(num, 'days').format('MM-DD')
       }
     },
   },
-  methods: {},
+  methods: {
+    handleClick(tab, e) {
+      let status = {
+        shuttle_shift_date: this.$moment().year() + '-' + tab.name,
+        startDate: this.$moment(),
+        activeTab: tab.name,
+      }
+      
+      this.$store.commit('setSearchStatus', status)
+    },
+  },
+  created() {
+    // 每次跳转到首页时，恢复车票查询
+    let status = {
+        shuttle_shift_date: this.$moment().format('YYYY-MM-DD'),
+        startDate: this.$moment(),
+        activeTab: this.$moment().format('MM-DD'),
+      }
+    this.$store.commit('setSearchStatus', status)
+  }
 }
 </script>
 

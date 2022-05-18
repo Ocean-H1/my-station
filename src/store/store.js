@@ -12,12 +12,17 @@ export default new Vuex.Store({
         isLogin: false,
         // 用户权限
         isRoot: false,
+        // 查询车票页面的状态
+        searchStatus: {},
     },
     // 获取属性的状态
     getters: {
         // 获取登录状态
         isLogin: state => state.isLogin,
-        isRoot: state => state.isRoot
+        // 获取权限状态
+        isRoot: state => state.isRoot,
+        // 获取车票查询页面的状态
+        searchStatus: state => state.searchStatus
     },
     mutations: {
         // 修改车站信息为用户点击的车站
@@ -35,7 +40,11 @@ export default new Vuex.Store({
         // 保存用户权限
         userPermissions(state,flag) {
             state.isRoot = flag
-        }
+        },
+        // 设置车票查询页面的状态
+        setSearchStatus(state,status){
+            state.searchStatus = status
+        },
     },
     actions: {
         // 设置登录状态

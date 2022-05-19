@@ -5,7 +5,6 @@
       <el-col :span="17">
         <!-- tabs部分 卡片化 -->
         <el-tabs
-          type="border-card"
           v-model="activeName"
           @tab-click="handleClick"
         >
@@ -35,7 +34,8 @@
             >
           </el-tab-pane>
         </el-tabs>
-
+        <div class="info car_type"><span>车型说明：同班线路,车型越高,票价越高,舒适度越高。</span></div>
+        <div class="info flow_shuttle"><span>流水班：即滚动发车，乘客须在截止时间之前到站乘车。</span></div>
         <!-- 展示符合条件班次的table部分 -->
         <!-- 流水班 -->
         <el-table
@@ -82,6 +82,7 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="info fixed_shuttle"><span>固定班：乘客须按发车时间准时乘车。</span></div>
         <!-- 固定班 -->
         <el-table
           :data="regular_shuttle_list"
@@ -242,5 +243,21 @@ export default {
 <style scoped>
 .el-row {
   width: 100%;
+}
+.info {
+  font-size: 15px;
+  letter-spacing: 2px;
+  padding: 8px;
+}
+.car_type {
+  font-size: 13px;
+}
+.flow_shuttle {
+  color: #F56C6C;
+  font-weight: 600;
+}
+.fixed_shuttle{
+  color: #068abb;
+  font-weight: 600;
 }
 </style>

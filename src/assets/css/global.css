@@ -16,7 +16,6 @@ li {
 }
 /* 修改NProgress进度条的颜色 */
 #nprogress .bar {
-    background: rgb(3, 185, 185) !important;
-    top: 90px !important;
-    height: 2px !important;
+    background: rgb(3, 190, 190) !important;
+    height: 3px !important;
 }

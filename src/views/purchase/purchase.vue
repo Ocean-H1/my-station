@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       // 激活的步骤条index
-      activeStep: 1,
+      activeStep: 0,
     }
   }
 }

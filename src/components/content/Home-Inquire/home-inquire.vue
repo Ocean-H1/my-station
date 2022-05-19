@@ -53,7 +53,7 @@
             >
             </el-date-picker>
           </el-form-item>
-          <el-button type="primary" @click="QueryTickets">
+          <el-button @click="QueryTickets">
             <i class="el-icon-search"></i> 查询</el-button
           >
         </el-form>
@@ -193,21 +193,40 @@ export default {
       // 表单验证
       this.$refs.QueryFormRef.validate(async (valid) => {
         if (!valid) return
-        // 修改车票查询页面的默认状态
+
+        const { data: res } = await this.$http.get(
+          `/query/shuttle/getShuttleList`,
+          {
+            params: {
+              shuttle_shift_date: this.QueryForm.shuttle_shift_date,
+              start_region_id: this.QueryForm.start_region_id,
+              final_region_id: this.QueryForm.final_region_id,
+            },
+          }
+        )
+        if (res.code !== 10000) {
+          return this.$message.error(res.message)
+        }
+        this.$message.success('查询成功!')
+        // 控制车票查询页面的默认状态
         let status = {
           shuttle_shift_date: this.QueryForm.shuttle_shift_date,
           startDate: this.$moment(this.QueryForm.shuttle_shift_date),
-          activeTab: this.$moment(this.QueryForm.shuttle_shift_date).format('MM-DD'),
+          activeTab: this.$moment(this.QueryForm.shuttle_shift_date).format(
+            'MM-DD'
+          ),
         }
-        // 传递给车票查询页面的参数
-        let info =JSON.stringify({
+        // 传递给车票查询页面的参数[此方案废弃]
+        const info = JSON.stringify({
           start_region_id: this.QueryForm.start_region_id,
           final_region_id: this.QueryForm.final_region_id,
         })
-        this.$store.commit('setSearchStatus',status)
+        this.$store.commit('setSearchStatus', status)
+        this.$refs.QueryFormRef.resetFields()
         this.$router.push({
           path: '/purchase',
           query: {
+            result: JSON.stringify(res.data),
             info,
           },
         })
@@ -304,6 +323,7 @@ export default {
     // // 获取地区列表(用于输入建议)
     this.getAllRegions()
   },
+
 }
 </script>
 
@@ -313,9 +333,18 @@ export default {
   flex-direction: column;
 }
 .el-button {
+  background-color: #068abb;
   letter-spacing: 0.5em;
   font-size: 1.1em;
   text-align: center;
+  color: #fff;
+}
+.el-button:hover,.el-button:focus {
+  background-color: #0c9cd1;
+  letter-spacing: 0.5em;
+  font-size: 1.1em;
+  text-align: center;
+  color: #fff;
 }
 .el-tabs {
   height: 100%;

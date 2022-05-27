@@ -134,8 +134,10 @@ export default {
           type: 'success',
           duration: 2000,
         })
-        // 返回首页
-        
+        // 返回之前浏览的页面
+        if(this.$route.query.redirectPath){
+          return this.$router.go(-1)
+        }
         this.$router.push('/first')
       })
     },

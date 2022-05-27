@@ -4,10 +4,7 @@
       <!-- 左侧主体内容区 -->
       <el-col :span="17">
         <!-- tabs部分 卡片化 -->
-        <el-tabs
-          v-model="activeName"
-          @tab-click="handleClick"
-        >
+        <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane :name="getCurrentDate(0)">
             <span slot="label" @click="handleDays(-2)"
               ><i class="el-icon-date"></i> {{ getCurrentDate(0) }}</span
@@ -34,8 +31,12 @@
             >
           </el-tab-pane>
         </el-tabs>
-        <div class="info car_type"><span>车型说明：同班线路,车型越高,票价越高,舒适度越高。</span></div>
-        <div class="info flow_shuttle"><span>流水班：即滚动发车，乘客须在截止时间之前到站乘车。</span></div>
+        <div class="info car_type">
+          <span>车型说明：同班线路,车型越高,票价越高,舒适度越高。</span>
+        </div>
+        <div class="info flow_shuttle">
+          <span>流水班：即滚动发车，乘客须在截止时间之前到站乘车。</span>
+        </div>
         <!-- 展示符合条件班次的table部分 -->
         <!-- 流水班 -->
         <el-table
@@ -74,6 +75,7 @@
                 v-if="scope.row.unuse_ticket_quantity != 0"
                 size="mini"
                 type="warning"
+                @click="toSubmitOrder(scope.row)"
                 >购票</el-button
               >
               <el-button v-else disabled size="mini" type="info"
@@ -82,7 +84,9 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="info fixed_shuttle"><span>固定班：乘客须按发车时间准时乘车。</span></div>
+        <div class="info fixed_shuttle">
+          <span>固定班：乘客须按发车时间准时乘车。</span>
+        </div>
         <!-- 固定班 -->
         <el-table
           :data="regular_shuttle_list"
@@ -120,6 +124,7 @@
                 v-if="scope.row.unuse_ticket_quantity != 0"
                 size="mini"
                 type="warning"
+                @click="toSubmitOrder(scope.row)"
                 >购票</el-button
               >
               <el-button v-else disabled size="mini">无票</el-button>
@@ -176,6 +181,7 @@ export default {
     },
     // 查询符合条件的班次线路
     async getShuttleList() {
+      
       const info = JSON.parse(this.$route.query.info)
       let shuttle_shift_date =
         this.$store.getters.searchStatus.shuttle_shift_date ||
@@ -199,6 +205,7 @@ export default {
       // 保存返回的班次列表
       this.flow_shuttle_list = res.data.flow_shuttle_list
       this.regular_shuttle_list = res.data.regular_shuttle_list
+      this.$emit('getSteps', 0)
     },
     // 路由参数变化时的处理函数
     hanldeRouteChange() {
@@ -213,10 +220,22 @@ export default {
         this.activeName =
           this.$store.getters.searchStatus.activeTab ||
           this.$moment().format('MM-DD')
+        // 更改步骤条
+        this.$emit('getSteps', 0)
         return
       }
       // 否则重新发起查询请求
       this.getShuttleList()
+    },
+    // 跳转到提交订单页面
+    toSubmitOrder(ticket) {
+      this.$emit('getSteps', 1)
+      this.$router.push({
+        path: 'purchase/submitOrder',
+        query: {
+          ticketInfo: JSON.stringify(ticket)
+        }
+      })
     },
   },
   computed: {
@@ -253,11 +272,14 @@ export default {
   font-size: 13px;
 }
 .flow_shuttle {
-  color: #F56C6C;
+  color: #f56c6c;
   font-weight: 600;
 }
-.fixed_shuttle{
+.fixed_shuttle {
   color: #068abb;
   font-weight: 600;
+}
+.searchTicket{
+  margin: 3vh 0;
 }
 </style>

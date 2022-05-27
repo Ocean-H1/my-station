@@ -27,6 +27,8 @@ const Login = () => import('@/components/content/Login/login.vue')
 const Register = () => import('@/components/content/Register/register')
 const purchase = () => import('../views/purchase/purchase.vue')
 const searchTicket = () => import('../views/purchase/components/searchTicket.vue')
+const submitOrder = () => import('../views/purchase/components/submitOrder.vue')
+
 // 找回密码
 const reback = () => import('@/components/content/rebackPsd/rebackPsd.vue')
 // 后台管理模块相关组件
@@ -189,9 +191,17 @@ const routes = [
         path:'',
         component: searchTicket,
         meta: {
-          title: '购票 | 查询车票'
+          title: '购票 | 车票查询'
         }
       },
+      {
+        path: 'submitOrder',
+        meta: {
+          title: '购票 | 提交订单',
+          isNeedLogin: true
+        },
+        component: submitOrder
+      }
     ]
   },
   {
@@ -241,7 +251,10 @@ router.beforeEach((to, from, next) => {
     alert('您还未登录，请先登录！')
     next(
       {
-        path: '/login'
+        path: '/login',
+        query: {
+          redirectPath: to.path
+        }
       }
     )
   }

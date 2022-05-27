@@ -6,6 +6,7 @@
       finish-status="success"
       simple
       style="margin-top: 20px"
+      ref="stepRef"
     >
       <el-step title="车票查询"></el-step>
       <el-step title="提交订单"></el-step>
@@ -15,7 +16,7 @@
 
     <!-- 路由占位符 -->
     <div class="content">
-      <router-view></router-view>
+      <router-view @getSteps="setStep"></router-view>
     </div>
     
   </div>
@@ -26,15 +27,19 @@ export default {
   name: 'purchase',
   data() {
     return {
-      // 激活的步骤条index
-      activeStep: 0,
+      // 默认激活的步骤条
+      activeStep: Number(window.sessionStorage.getItem('activeStep')) || 0,
     }
-  }
+  },
+  methods:{
+    setStep(step) {
+      // step组件的active属性需要一个number类型的值，所以取出来的时候先转成Number
+      window.sessionStorage.setItem('activeStep',step)
+      this.$forceUpdate();
+    },
+  },
 }
 </script>
 
 <style scoped>
-.content {
-  margin: 5vh 0;
-}
 </style>

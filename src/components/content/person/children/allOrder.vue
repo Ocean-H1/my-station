@@ -210,7 +210,6 @@ export default {
           params,
         })
         .then((result) => {
-          console.log(result.data)
           if (result.data.code === 10000) {
             result.data.data.order_list.forEach((element) => {
               element.children = []

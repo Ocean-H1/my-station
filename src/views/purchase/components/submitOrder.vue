@@ -351,8 +351,6 @@ export default {
           ],
         },
       },
-      // 提交订单成功后返回的订单信息
-      master_orderInfo: {},
       // 是否同意购票须知
       if_know: false,
     }
@@ -521,13 +519,18 @@ export default {
             `/order/bookOrder`,
             params
           )
-          console.log(res)
           if (res.code !== 10000) {
             return this.$message.error(res.message)
           }
           this.$message.success('提交订单成功！')
-          // 保存订单信息
-          this.master_orderInfo = res.data
+
+          this.$emit('getSteps', 2)
+          this.$router.push({
+            path: '/purchase/confirmOrder',
+            query:{
+              order: JSON.stringify(res.data)
+            }
+          })
         })
       })
     },

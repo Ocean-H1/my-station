@@ -114,11 +114,12 @@ export default {
     // 确认并支付
     confirm() {
       this.$router.push({
-        path:'/payQrcode',
+        path:'/purchase/payQrcode',
         query:{
           info: JSON.stringify({
             master_order_number: this.master_orderInfo.master_order_number
-          })
+          }),
+          totalPrice: this.master_orderInfo.master_total_amount
         },
       })
     },

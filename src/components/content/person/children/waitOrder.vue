@@ -65,8 +65,8 @@
                 <el-button
                   type="primary"
                   size="small"
-                  @click="toPay"
-                  style="margin-right: 10px;"
+                  @click="toPay(row)"
+                  style="margin-right: 10px"
                 >
                   支付
                 </el-button>
@@ -76,7 +76,7 @@
                   @confirm="handleCancel(row.row.master_order_number)"
                 >
                   <el-button slot="reference" size="small" type="danger"
-                  >取消订单</el-button
+                    >取消订单</el-button
                   >
                 </el-popconfirm>
               </template>
@@ -94,7 +94,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       start_time: '',
       end_time: '',
@@ -107,13 +107,18 @@ export default {
   },
 
   methods: {
-    handleCancel(orderID){
-      console.log(orderID);
-      this._cancelOrder({master_order_number: orderID})
+    handleCancel(orderID) {
+      this._cancelOrder({ master_order_number: orderID })
     },
 
-    toPay() {
-      this.$router.push({ path: '/qrcode' })
+    toPay(row) {
+      this.$router.push({
+        path: '/purchase/payQrcode',
+        query: {
+          info: JSON.stringify(row.row),
+          totalPrice: row.row.total_amount
+        }
+      })
     },
 
     _cancelOrder(params) {
@@ -138,14 +143,13 @@ export default {
           params,
         })
         .then((result) => {
-          console.log(result.data)
           if (result.data.code === 10000) {
             result.data.data?.order_list.forEach((element) => {
               element.children = []
             })
             this.tableData = result.data.data.order_list
-          }else {
-            this.tableData  = []
+          } else {
+            this.tableData = []
           }
         })
     },
@@ -194,13 +198,13 @@ export default {
   text-align: right;
   margin-top: 40px;
 }
-.toggle .val{
+.toggle .val {
   margin: 0 10px;
 }
-.history{
+.history {
   font-size: 12px;
 }
-.history a{
+.history a {
   color: red;
 }
 </style>

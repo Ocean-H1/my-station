@@ -30,7 +30,7 @@ const searchTicket = () => import('../views/purchase/components/searchTicket.vue
 const submitOrder = () => import('../views/purchase/components/submitOrder.vue')
 const confirmOrder = () => import('../views/purchase/components/confirmOrder.vue')
 const payQrcode = () => import('../views/purchase/components/payQrcode.vue')
-
+const getRideCode = () => import('../views/purchase/components/getRideCode.vue')
 // 找回密码
 const reback = () => import('@/components/content/rebackPsd/rebackPsd.vue')
 // 后台管理模块相关组件
@@ -213,12 +213,20 @@ const routes = [
         component: confirmOrder
       },
       {
-        path: '/payQrcode',
+        path: 'payQrcode',
         meta: {
           title: '购票 | 支付订单',
           isNeedLogin: true
         },
         component: payQrcode
+      },
+      {
+        path: 'getRideCode',
+        meta: {
+          title: '购票 | 乘车码',
+          isNeedLogin: true
+        },
+        component: getRideCode
       },
     ]
   },

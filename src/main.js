@@ -15,9 +15,9 @@ Vue.use(ElementUi)
 import NProgress from 'nprogress'
 // 引入nprogress样式文件
 import 'nprogress/nprogress.css'
-// 引入公共js函数
+// 引入公共js函数 主要是一些公共的方法 比如MD5加密
 import utils from '@/utils/utils.js'
-
+import {baseURL} from '../config'
 Vue.config.productionTip = false
 // 全局挂载axios
 Vue.prototype.$http = axios
@@ -25,7 +25,7 @@ Vue.prototype.$http = axios
 Vue.prototype.$utils = utils
 Vue.prototype.$moment = moment
 // 配置请求的根路径
-axios.defaults.baseURL = 'http://stationapi.oceanh.top:8080'
+axios.defaults.baseURL = baseURL
 // 设置request拦截器，在请求之前添加sessionid，展示进度条
 axios.interceptors.request.use((config) => {
   // 展示进度条

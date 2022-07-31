@@ -268,11 +268,6 @@ export default {
   font-size: 0.75rem;
   color: #444444;
 }
-.el-form {
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*padding-top: 50px;*/
-}
 .codeContainer div {
   float: right;
   cursor: pointer;

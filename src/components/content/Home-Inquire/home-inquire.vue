@@ -216,7 +216,7 @@ export default {
             'MM-DD'
           ),
         }
-        // 传递给车票查询页面的参数[此方案废弃]
+        // 传递给车票查询页面的参数
         const info = JSON.stringify({
           start_region_id: this.QueryForm.start_region_id,
           final_region_id: this.QueryForm.final_region_id,

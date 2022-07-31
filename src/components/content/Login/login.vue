@@ -112,12 +112,13 @@ export default {
         // 拿到接口返回的数据
         const { data: res } = await this.$http.post('/permissions/login', {
           phone_number: this.loginForm.phone_number,
+          // 将密码进行MD5的16位加密
           password: this.$utils.md5(this.loginForm.password, 16),
           check_code: this.loginForm.check_code,
         })
         // 判断是否登陆成功
         if (res.code !== 10000) {
-          return this.$message.error({
+          return this.$message({
             message: res.message,
             type: 'error',
             duration: 2000,
@@ -128,6 +129,7 @@ export default {
         window.sessionStorage.setItem('SessionId', res.data.SessionId)
         // 改变用户的登录状态
         this.$store.dispatch('userLogin',true)
+        // 用于之后路由守卫判断登录状态
         sessionStorage.setItem('isLogin',true)
         this.$message({
           message: '登录成功！',

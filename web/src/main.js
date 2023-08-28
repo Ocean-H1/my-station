@@ -25,7 +25,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$utils = utils;
 Vue.prototype.$moment = moment;
 // 配置请求的根路径
-// axios.defaults.baseURL = baseURL;
+axios.defaults.baseURL = "http://localhost:3000/";
 // 设置request拦截器，在请求之前添加sessionid，展示进度条
 axios.interceptors.request.use((config) => {
   // 展示进度条

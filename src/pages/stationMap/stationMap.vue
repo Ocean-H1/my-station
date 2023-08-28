@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Map from '../../components/content/Map/map'
+import Map from '../../components/content/Map/map.vue'
 
 export default {
   components: { Map },

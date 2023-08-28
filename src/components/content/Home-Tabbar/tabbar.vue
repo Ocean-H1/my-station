@@ -6,7 +6,7 @@
       router
       background-color="#d3e5f1"
     >
-      <el-menu-item index="/first">首页</el-menu-item>
+      <el-menu-item index="/index">首页</el-menu-item>
       <el-menu-item index="/refund">退票</el-menu-item>
       <el-menu-item index="/help">帮助中心</el-menu-item>
       <el-menu-item index="/advise">投诉建议</el-menu-item>
@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import First from '@/views/first/first.vue'
-import refund from '@/views/refund/refund.vue'
-import help from '../../../views/help/help.vue'
-import advise from '../../../views/advise/advise.vue'
-import about from '../../../views/about/about.vue'
+import index from '@pages/index/index.vue'
+import refund from '@pages/refund/refund.vue'
+import help from '@pages/help/help.vue'
+import advise from '@pages/advise/advise.vue'
+import about from '@pages/about/about.vue'
 
 export default {
   name: 'Home-Tabbar',
@@ -43,7 +43,7 @@ export default {
         // 超级用户
         // this.$store.dispatch('setPermissions',true)
         this.isRoot = true
-        sessionStorage.setItem('isRoot',true)
+        sessionStorage.setItem('isRoot', true)
       }
     },
   },
@@ -51,7 +51,7 @@ export default {
     this.checkPermission()
   },
   components: {
-    First,
+    index,
     refund,
     help,
     advise,

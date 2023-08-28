@@ -1,7 +1,7 @@
 <template>
-  <div class="first">
+  <div class="index">
     <!-- 第一部分 查询 公告 轮播图 -->
-    <div class="first-container">
+    <div class="index-container">
       <HomeInquire></HomeInquire>
       <Swiper></Swiper>
       <HomeNotice></HomeNotice>
@@ -25,15 +25,15 @@
 </template>
 
 <script>
-import Hotline from '../../components/content/Station-Hotline/hotline'
-import StationBox from '../../components/content/Station-Hotline/stationBox'
-import HomeProcess from '../../components/content/Home-Process/home-process'
-import HomeNotice from '../../components/content/Home-Notice/home-notice'
-import HomeInquire from '../../components/content/Home-Inquire/home-inquire'
-import Swiper from '@/components/content/Home-Swiper/home-swiper.vue'
+import Hotline from './components/Station-Hotline/hotline.vue'
+import StationBox from './components/Station-Hotline/stationBox.vue'
+import HomeProcess from './components/home-process.vue'
+import HomeNotice from './components/home-notice.vue'
+import HomeInquire from './components/home-inquire.vue'
+import Swiper from './components/home-swiper.vue'
 
 export default {
-  name: 'first',
+  name: 'index',
   data() {
     return {}
   },
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style scoped>
-.first-container {
+.index-container {
   display: flex;
   justify-content: space-between;
   max-height: 300px;
@@ -76,8 +76,7 @@ export default {
   overflow: hidden;
 }
 .footer-station,
-.footer-hotLine{
+.footer-hotLine {
   width: 48%;
 }
-
 </style>

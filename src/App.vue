@@ -5,12 +5,11 @@
 </template>
 
 <script>
-import Home from './components/Home.vue'
+import Home from '@/components/Home.vue'
 export default {
   name: 'app',
   data() {
-    return {
-    }
+    return {}
   },
   components: {
     Home,
@@ -32,5 +31,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

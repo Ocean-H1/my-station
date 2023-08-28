@@ -64,10 +64,10 @@ export default {
       // 清除sessionid
       window.sessionStorage.clear()
       // 刷新页面
-      if (this.$route.path == '/first') {
+      if (this.$route.path == '/index') {
         this.$router.go(0)
       }
-      this.$router.push('/first')
+      this.$router.push('/index')
     },
   },
 }

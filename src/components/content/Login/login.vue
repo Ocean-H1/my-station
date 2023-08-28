@@ -140,7 +140,7 @@ export default {
         if(this.$route.query.redirectPath){
           return this.$router.go(-1)
         }
-        this.$router.push('/first')
+        this.$router.push('/index')
       })
     },
     

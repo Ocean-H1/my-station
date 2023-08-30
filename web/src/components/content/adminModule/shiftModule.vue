@@ -702,6 +702,8 @@
 </template>
 
 <script>
+import { getFamiliarStation } from '@services/index';
+
 export default {
   name: 'shiftMoudle',
   data() {
@@ -709,23 +711,23 @@ export default {
       // 判断是否在数组中有该选项的方法，也可以用es6的some方法
       for (let i = 0; i < arr.length; i++) {
         if (value === arr[i]) {
-          return true
+          return true;
         }
       }
-      return false
+      return false;
     }
     const validatePass = (rule, value, callback) => {
       this.regionsList.forEach((item) => {
         // 造出一个只有城市名的数组regionsNameList
-        this.regionsNameList.push(item.region_name)
-      })
+        this.regionsNameList.push(item.region_name);
+      });
 
       if (isInArray(this.regionsNameList, value)) {
-        callback()
+        callback();
       } else {
-        callback(new Error('请选择列表中已有选项!'))
+        callback(new Error('请选择列表中已有选项!'));
       }
-    }
+    };
     return {
       // 查询班次的表单对象
       QueryForm: {
@@ -960,17 +962,17 @@ export default {
       // 班次详情的表单对象
       DetailForm: {},
       DetailFormRules: {},
-    }
+    };
   },
   methods: {
     // 查找输入建议
     querySearch(queryString, cb) {
-      let regionsList = this.regionsList
+      let regionsList = this.regionsList;
       let res = queryString
         ? regionsList.filter(this.createFilter(queryString))
-        : regionsList
+        : regionsList;
 
-      cb(res)
+      cb(res);
     },
     // 输入建议的过滤器
     createFilter(queryString) {
@@ -982,35 +984,35 @@ export default {
           regionsList.region_english_name
             .toLowerCase()
             .indexOf(queryString.toLowerCase()) >= 0
-        )
-      }
+        );
+      };
     },
     // 输入建议被选中时触发的事件
     handleSelect1(item) {
-      this.QueryForm.start_name = item.region_name
-      this.QueryForm.start_region_id = item.region_id
+      this.QueryForm.start_name = item.region_name;
+      this.QueryForm.start_region_id = item.region_id;
     },
     handleSelect2(item) {
-      this.QueryForm.final_name = item.region_name
-      this.QueryForm.final_region_id = item.region_id
+      this.QueryForm.final_name = item.region_name;
+      this.QueryForm.final_region_id = item.region_id;
     },
     // 获取地区列表(用于输入建议)
     async getAllRegions() {
       // 发送请求
-      const { data: res } = await this.$http.get(`/query/region/getAllRegions`)
+      const { data: res } = await this.$http.get(`/query/region/getAllRegions`);
 
       if (res.code !== 10000) {
-        return this.$message.error('获取所有地区列表失败!')
+        return this.$message.error('获取所有地区列表失败!');
       }
 
       // 保存数据
-      this.regionsList = res.data.region_list
+      this.regionsList = res.data.region_list;
     },
     // 查询符合条件的班次列表
     getShuttleList() {
       // 发送请求
       this.$refs.QueryFormRef.validate(async (valid) => {
-        if (!valid) return
+        if (!valid) return;
         const { data: res } = await this.$http.post(
           `/manage/getShuttleInfoList`,
           {
@@ -1019,32 +1021,32 @@ export default {
             shuttle_shift_date: this.QueryForm.shuttle_shift_date,
             page: this.QueryForm.page,
             size: this.QueryForm.size,
-          }
-        )
+          },
+        );
         // 请求失败
         if (res.code != 10000)
           return this.$message({
             type: 'error',
             message: res.message,
             duration: 2000,
-          })
+          });
 
-        this.$message.success('查询班次列表成功！')
+        this.$message.success('查询班次列表成功！');
         // 保存班次列表
-        this.shuttleList = res.data.shuttle_list
+        this.shuttleList = res.data.shuttle_list;
         // 保存数据总量
-        this.total = res.total
-      })
+        this.total = res.total;
+      });
     },
     // 监听页码改变
     handleCurrentChange(newPage) {
-      this.QueryForm.page = newPage
-      this.getShuttleList()
+      this.QueryForm.page = newPage;
+      this.getShuttleList();
     },
     // 监听pagesize改变
     handleSizeChange(newSize) {
-      this.QueryForm.size = newSize
-      this.getShuttleList()
+      this.QueryForm.size = newSize;
+      this.getShuttleList();
     },
     // 修改班次状态
     async userStateChange(userinfo) {
@@ -1054,98 +1056,97 @@ export default {
           params: {
             Shuttle_id: userinfo.shift_id,
           },
-        }
-      )
+        },
+      );
 
       if (res.code != 10000) {
         // 修改状态失败
-        userinfo.status = !userinfo.status
+        userinfo.status = !userinfo.status;
         return this.$message({
           type: 'error',
           message: res.message,
           duration: 2000,
-        })
+        });
       }
 
-      this.$message.success('状态更新成功！')
+      this.$message.success('状态更新成功！');
     },
     // 监听新建班次对话框的关闭事件
     addDialogClosed() {
       // 清空表单
-      this.$refs.addFormRef.resetFields()
+      this.$refs.addFormRef.resetFields();
     },
     // 点击按钮添加新班次
     addShuttle() {
       this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return
+        if (!valid) return;
         // 发送请求
         const { data: res } = await this.$http.post(
           `/manage/createShuttleInfo`,
-          this.addForm
-        )
+          this.addForm,
+        );
 
         if (res.code != 10000) {
           return this.$message({
             type: 'error',
             message: res.message,
             duration: 2000,
-          })
+          });
         }
 
-        this.$message.success('添加成功！')
+        this.$message.success('添加成功！');
         // 隐藏对话框
-        this.addDialogVisible = false
+        this.addDialogVisible = false;
         // 重新获取班次列表
-        this.getShuttleList()
-      })
+        this.getShuttleList();
+      });
     },
     // 获取常见车站列表
-    async getFamliarStation() {
-      const { data: res } = await this.$http.get(
-        `/query/station/getFamliarStation?size=20`
-      )
+    async getFamiliarStations() {
+      const { data: res } = await getFamiliarStation();
+
       if (res.code != 10000) {
         return this.$message({
           type: 'error',
           message: res.message,
           duration: 200,
-        })
+        });
       }
       // 保存数据
-      this.famliar_stations_list = res.data.famliar_stations_list
+      this.famliar_stations_list = res.data.familiar_stations_list;
     },
     // 展示编辑班次的对话框
     async showEditDialog(shuttleInfo) {
       // 获得本一行的信息对象
-      this.editForm = shuttleInfo
+      this.editForm = shuttleInfo;
       // 展示编辑对话框
-      this.EditDialogVisible = true
+      this.EditDialogVisible = true;
     },
     // 监听编辑班次对话框关闭事件
     EditDialogClosed() {
-      this.$refs.editFormRef.resetFields()
+      this.$refs.editFormRef.resetFields();
     },
     // 编辑班次信息提交
     editUserInfo() {
       this.$refs.editFormRef.validate(async (valid) => {
-        if (!valid) return
+        if (!valid) return;
 
         const { data: res } = await this.$http.post(
           `/manage/modifyShuttleInfo`,
-          this.editForm
-        )
+          this.editForm,
+        );
 
         if (res.code != 10000) {
           return this.$message({
             type: 'error',
             message: res.message,
             duration: 2000,
-          })
+          });
         }
-        this.EditDialogVisible = false
-        this.getShuttleList()
-        this.$message.success('班次信息编辑成功！')
-      })
+        this.EditDialogVisible = false;
+        this.getShuttleList();
+        this.$message.success('班次信息编辑成功！');
+      });
     },
     // 删除班次信息
     async removeShuutleById(id) {
@@ -1157,46 +1158,46 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
-        }
+        },
       ).catch((err) => {
-        return err
-      })
+        return err;
+      });
       // 如果用户确认删除 则会返回confirm 取消则会返回 cancel
       if (confirmResult !== 'confirm') {
-        return this.$message.info('已经取消删除操作！')
+        return this.$message.info('已经取消删除操作！');
       }
       // 表示用户确定删除 发送请求
       const { data: res } = await this.$http.get(`/manage/deleteShuttleInfo`, {
         params: {
           Shuttle_id: id,
         },
-      })
+      });
       if (res.code != 10000) {
         return this.$message({
           type: 'error',
           message: res.message,
           duration: 2000,
-        })
+        });
       }
-      this.$message.success('删除班次成功！')
-      this.getShuttleList()
+      this.$message.success('删除班次成功！');
+      this.getShuttleList();
     },
     // 查看班次详情
     showDetailDialog(shuttleInfo) {
-      this.DetailForm = shuttleInfo
-      this.DetailDialogVisible = true
+      this.DetailForm = shuttleInfo;
+      this.DetailDialogVisible = true;
     },
     DetailDialogClosed() {
-      this.$refs.DetailFormRef.resetFields()
+      this.$refs.DetailFormRef.resetFields();
     },
   },
   created() {
     // 获取地区列表(用于input输入建议)
-    this.getAllRegions()
+    this.getAllRegions();
     // 获取常见车站列表
-    this.getFamliarStation()
+    this.getFamiliarStations();
   },
-}
+};
 </script>
 
 <style scoped>

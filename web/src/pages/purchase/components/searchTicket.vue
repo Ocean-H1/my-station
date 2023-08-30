@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import HomeInquire from '@/components/content/Home-Inquire/home-inquire.vue'
+import HomeInquire from '@pages/index/components/home-inquire.vue';
 export default {
   name: 'searchTicket',
   data() {
@@ -156,36 +156,35 @@ export default {
       flow_shuttle_list: [],
       // 固定班
       regular_shuttle_list: [],
-    }
+    };
   },
   methods: {
     // 用户点击最后一个或第一个tab的时候，通过此函数更新计算日期的 起点(默认是当天)
     handleDays(num) {
-      this.startDate = this.$moment(this.startDate).add(num, 'days')
+      this.startDate = this.$moment(this.startDate).add(num, 'days');
     },
     // tabs切换触发事件
     handleClick(tab, event) {
       // 点击tab的时候将路由参数result 也就是从HomeInquire传递过来的结果清空
       if (this.$route.query.result) {
-        this.$route.query.result = ''
+        this.$route.query.result = '';
       }
       let status = {
         shuttle_shift_date: this.$moment().year() + '-' + tab.name,
         startDate: this.startDate,
         activeTab: tab.name,
-      }
+      };
 
-      this.$store.commit('setSearchStatus', status)
+      this.$store.commit('setSearchStatus', status);
       // 重新查询班次
-      this.getShuttleList()
+      this.getShuttleList();
     },
     // 查询符合条件的班次线路
     async getShuttleList() {
-      
-      const info = JSON.parse(this.$route.query.info)
+      const info = JSON.parse(this.$route.query.info);
       let shuttle_shift_date =
         this.$store.getters.searchStatus.shuttle_shift_date ||
-        this.$moment().format('YYYY-MM-DD')
+        this.$moment().format('YYYY-MM-DD');
 
       const { data: res } = await this.$http.get(
         `/query/shuttle/getShuttleList`,
@@ -195,59 +194,59 @@ export default {
             final_region_id: info.final_region_id,
             shuttle_shift_date,
           },
-        }
-      )
+        },
+      );
       if (res.code !== 10000) {
-        this.flow_shuttle_list = []
-        this.regular_shuttle_list = []
-        return this.$message.error(res.message)
+        this.flow_shuttle_list = [];
+        this.regular_shuttle_list = [];
+        return this.$message.error(res.message);
       }
       // 保存返回的班次列表
-      this.flow_shuttle_list = res.data.flow_shuttle_list
-      this.regular_shuttle_list = res.data.regular_shuttle_list
-      this.$emit('getSteps', 0)
+      this.flow_shuttle_list = res.data.flow_shuttle_list;
+      this.regular_shuttle_list = res.data.regular_shuttle_list;
+      this.$emit('getSteps', 0);
     },
     // 路由参数变化时的处理函数
     hanldeRouteChange() {
       // 如果参数中已有结果 则直接展示
       if (this.$route.query.result) {
-        const routeParams = JSON.parse(this.$route.query.result)
-        this.regular_shuttle_list = routeParams.regular_shuttle_list
-        this.flow_shuttle_list = routeParams.flow_shuttle_list
+        const routeParams = JSON.parse(this.$route.query.result);
+        this.regular_shuttle_list = routeParams.regular_shuttle_list;
+        this.flow_shuttle_list = routeParams.flow_shuttle_list;
 
         this.startDate =
-          this.$store.getters.searchStatus.startDate || this.$moment()
+          this.$store.getters.searchStatus.startDate || this.$moment();
         this.activeName =
           this.$store.getters.searchStatus.activeTab ||
-          this.$moment().format('MM-DD')
+          this.$moment().format('MM-DD');
         // 更改步骤条
-        this.$emit('getSteps', 0)
-        return
+        this.$emit('getSteps', 0);
+        return;
       }
       // 否则重新发起查询请求
-      this.getShuttleList()
+      this.getShuttleList();
     },
     // 跳转到提交订单页面
     toSubmitOrder(ticket) {
-      this.$emit('getSteps', 1)
+      this.$emit('getSteps', 1);
       this.$router.push({
         path: 'purchase/submitOrder',
         query: {
-          ticketInfo: JSON.stringify(ticket)
-        }
-      })
+          ticketInfo: JSON.stringify(ticket),
+        },
+      });
     },
   },
   computed: {
     // 获取当天的日期 可以传参表示得到当天+num的日期
     getCurrentDate() {
       return function (num = 0) {
-        return this.$moment(this.startDate).add(num, 'days').format('MM-DD')
-      }
+        return this.$moment(this.startDate).add(num, 'days').format('MM-DD');
+      };
     },
   },
   created() {
-    this.getShuttleList()
+    this.getShuttleList();
   },
   components: {
     HomeInquire,
@@ -256,7 +255,7 @@ export default {
     // 路由参数变化时，重新查询
     $route: 'hanldeRouteChange',
   },
-}
+};
 </script>
 
 <style scoped>
@@ -279,7 +278,7 @@ export default {
   color: #068abb;
   font-weight: 600;
 }
-.searchTicket{
+.searchTicket {
   margin: 3vh 0;
 }
 </style>

@@ -5,6 +5,7 @@ import { HttpExceptionFilter } from './filters/all-expection.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // 开启Cors
   app.enableCors({ origin: 'http://localhost:8080' });
   // 全局注册拦截器
   app.useGlobalInterceptors(new TransformInterceptors());

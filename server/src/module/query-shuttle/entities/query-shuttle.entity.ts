@@ -1,3 +1,8 @@
+/**
+ * @Description: 线路相关实体
+ * @Author: OceanH
+ * @Date: 2023-09-01 18:21:03
+ */
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 // 线路列表
@@ -26,7 +31,7 @@ export class ShuttleLine {
   via_regions_name: string;
 }
 
-// banc次详情
+// 班次次详情
 @Entity()
 export class ShuttleShift {
   @PrimaryGeneratedColumn()
@@ -94,4 +99,23 @@ export class ShuttleShift {
 
   @Column({ select: false })
   is_delete: number;
+}
+
+// 车辆信息
+@Entity()
+export class Car {
+  @PrimaryGeneratedColumn()
+  car_id: number;
+
+  @Column()
+  car_model: string;
+
+  @Column()
+  car_color: string;
+
+  @Column()
+  car_number: string;
+
+  @Column({ select: false })
+  contractor_name: number;
 }

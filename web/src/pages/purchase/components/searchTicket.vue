@@ -60,7 +60,11 @@
           </el-table-column>
           <el-table-column label="终点站" prop="final_station">
           </el-table-column>
-          <el-table-column label="班次类型" prop="shuttle_shift_type">
+          <el-table-column label="线路类型" prop="line_type">
+            <template slot-scope="scope">
+              <span v-if="scope.row.line_type === 1">高速</span>
+              <span v-else>低速</span>
+            </template>
           </el-table-column>
           <el-table-column label="里程" prop="full_length"> </el-table-column>
           <el-table-column label="车型" prop="car_model"> </el-table-column>
@@ -109,7 +113,11 @@
           </el-table-column>
           <el-table-column label="终点站" prop="final_station">
           </el-table-column>
-          <el-table-column label="班次类型" prop="shuttle_shift_type">
+          <el-table-column label="线路类型" prop="line_type">
+            <template slot-scope="scope">
+              <span v-if="scope.row.line_type === 1">高速</span>
+              <span v-else>低速</span>
+            </template>
           </el-table-column>
           <el-table-column label="里程" prop="full_length"> </el-table-column>
           <el-table-column label="车型" prop="car_model"> </el-table-column>

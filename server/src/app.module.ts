@@ -12,6 +12,7 @@ import { QueryModule } from './module/query/query.module';
 import { ManagerModule } from './module/manager/manager.module';
 import { QueryStationModule } from './module/query-station/query-station.module';
 import { QueryShuttleModule } from './module/query-shuttle/query-shuttle.module';
+import { QueryRegionModule } from './module/query-region/query-region.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { QueryShuttleModule } from './module/query-shuttle/query-shuttle.module'
     ManagerModule,
     QueryStationModule,
     QueryShuttleModule,
+    QueryRegionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

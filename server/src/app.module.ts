@@ -8,7 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionsModule } from './module/permissions/permissions.module';
 import { UserCenterModule } from './module/user-center/user-center.module';
 import { OrderModule } from './module/order/order.module';
-import { QueryModule } from './module/query/query.module';
 import { ManagerModule } from './module/manager/manager.module';
 import { QueryStationModule } from './module/query-station/query-station.module';
 import { QueryShuttleModule } from './module/query-shuttle/query-shuttle.module';
@@ -29,7 +28,6 @@ import { QueryRegionModule } from './module/query-region/query-region.module';
     PermissionsModule,
     UserCenterModule,
     OrderModule,
-    QueryModule,
     ManagerModule,
     QueryStationModule,
     QueryShuttleModule,

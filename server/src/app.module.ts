@@ -10,6 +10,8 @@ import { UserCenterModule } from './module/user-center/user-center.module';
 import { OrderModule } from './module/order/order.module';
 import { QueryModule } from './module/query/query.module';
 import { ManagerModule } from './module/manager/manager.module';
+import { QueryStationModule } from './module/query-station/query-station.module';
+import { QueryShuttleModule } from './module/query-shuttle/query-shuttle.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { ManagerModule } from './module/manager/manager.module';
     OrderModule,
     QueryModule,
     ManagerModule,
+    QueryStationModule,
+    QueryShuttleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -30,7 +30,7 @@ export class QueryController {
   }
 
   // 查询所有地区列表
-  @Get('/region/getAllRegions')
+  @Get('region/getAllRegions')
   async getAllRegions() {
     return await this.queryService.getAllRegions();
   }

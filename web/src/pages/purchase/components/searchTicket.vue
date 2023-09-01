@@ -58,11 +58,11 @@
           </el-table-column>
           <el-table-column label="途径站" prop="via_stations_name">
           </el-table-column>
-          <el-table-column label="终点站" prop="final_region">
+          <el-table-column label="终点站" prop="final_station">
           </el-table-column>
           <el-table-column label="班次类型" prop="shuttle_shift_type">
           </el-table-column>
-          <el-table-column label="里程" prop="full_lenght"> </el-table-column>
+          <el-table-column label="里程" prop="full_length"> </el-table-column>
           <el-table-column label="车型" prop="car_model"> </el-table-column>
           <el-table-column label="票价" prop="ticket_price"> </el-table-column>
           <el-table-column label="票数" prop="unuse_ticket_quantity">
@@ -107,11 +107,11 @@
           </el-table-column>
           <el-table-column label="途径站" prop="via_stations_name">
           </el-table-column>
-          <el-table-column label="终点站" prop="final_region">
+          <el-table-column label="终点站" prop="final_station">
           </el-table-column>
           <el-table-column label="班次类型" prop="shuttle_shift_type">
           </el-table-column>
-          <el-table-column label="里程" prop="full_lenght"> </el-table-column>
+          <el-table-column label="里程" prop="full_length"> </el-table-column>
           <el-table-column label="车型" prop="car_model"> </el-table-column>
           <el-table-column label="票价" prop="ticket_price"> </el-table-column>
           <el-table-column label="票数" prop="unuse_ticket_quantity">

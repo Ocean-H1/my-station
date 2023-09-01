@@ -6,7 +6,7 @@
           <img src="@/assets/img/logo.png" alt="" width="40px" /></div
       ></el-col>
       <el-col :span="12"
-        ><div class="grid-content title">陕西省客运互联网售票平台</div></el-col
+        ><div class="grid-content title">客运互联网售票平台</div></el-col
       >
       <!-- 用户未登录时显示 -->
       <el-col :span="6" v-if="!isLogin" class="user">
@@ -32,18 +32,18 @@ export default {
   data() {
     return {
       isLogin: this.$store.getters.isLogin,
-    }
+    };
   },
   methods: {
     // 跳转到登录/注册页面
     switchPage(path) {
-      if (this.$route.path === path) return
-      this.$router.push(path)
+      if (this.$route.path === path) return;
+      this.$router.push(path);
     },
     // 退出登录
     async logout() {
       // 这个接口好像没写，暂时默认退出成功，清除用户登录态
-      
+
       // const { data: res } = await this.$http.get(`/permissions/logOut`)
       // if (res.code !== 10000) {
       //   return this.$message({
@@ -56,21 +56,21 @@ export default {
         message: '退出成功！',
         type: 'warning',
         duration: 2000,
-      })
+      });
 
       // 改变登录态
-      this.$store.dispatch('userLogin', false)
-      this.$store.dispatch('setPermissions', false)
+      this.$store.dispatch('userLogin', false);
+      this.$store.dispatch('setPermissions', false);
       // 清除sessionid
-      window.sessionStorage.clear()
+      window.sessionStorage.clear();
       // 刷新页面
       if (this.$route.path == '/index') {
-        this.$router.go(0)
+        this.$router.go(0);
       }
-      this.$router.push('/index')
+      this.$router.push('/index');
     },
   },
-}
+};
 </script>
 
 <style scoped>

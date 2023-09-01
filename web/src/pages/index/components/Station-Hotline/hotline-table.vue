@@ -49,13 +49,14 @@
 </template>
 
 <script>
+import { getFamiliarShuttles } from '@services/index';
 export default {
   name: 'hotlineTable',
   data() {
     return {
       lineList1: [],
       lineList2: [],
-    }
+    };
   },
   methods: {
     showqueryheader(info) {
@@ -63,35 +64,29 @@ export default {
         path: '/purchase',
         query: {
           info: JSON.stringify(info),
-        }
-      })
+        },
+      });
     },
     // 获取热门线路列表信息
     async getLineList() {
-      // 发送请求
-      const { data: res } = await this.$http.get(
-        `/query/shuttle/getFamliarShuttles`,
-        {
-          params: {
-            size: 20,
-          },
-        }
-      )
-
+      const params = {
+        size: 20,
+      };
+      const { data: res } = await getFamiliarShuttles(params);
       if (res.code !== 10000) {
-        return this.$message.error('获取热门线路失败！')
+        return this.$message.error('获取热门线路失败！');
       }
 
       // 保存数据
-      this.lineList1 = res.data.famliar_shuttle_list.slice(0, 10)
-      this.lineList2 = res.data.famliar_shuttle_list.slice(10, 20)
+      this.lineList1 = res.data.familiar_shuttle_list.slice(0, 10);
+      this.lineList2 = res.data.familiar_shuttle_list.slice(10, 20);
     },
   },
   created() {
     // 获取热门线路列表信息
-    this.getLineList()
+    this.getLineList();
   },
-}
+};
 </script>
 
 <style scoped>
@@ -114,5 +109,3 @@ export default {
   cursor: pointer;
 }
 </style>
-
-

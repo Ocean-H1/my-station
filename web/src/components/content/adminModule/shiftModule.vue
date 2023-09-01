@@ -327,8 +327,8 @@
               style="width: 160px"
             ></el-input>
           </el-form-item>
-          <el-form-item label="总里程" prop="full_lenght">
-            <el-input v-model="addForm.full_lenght"></el-input>
+          <el-form-item label="总里程" prop="full_length">
+            <el-input v-model="addForm.full_length"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部按钮区 -->
@@ -490,8 +490,8 @@
               style="width: 160px"
             ></el-input>
           </el-form-item>
-          <el-form-item label="总里程" prop="full_lenght">
-            <el-input v-model="editForm.full_lenght"></el-input>
+          <el-form-item label="总里程" prop="full_length">
+            <el-input v-model="editForm.full_length"></el-input>
           </el-form-item>
         </el-form>
 
@@ -683,9 +683,9 @@
               :disabled="true"
             ></el-input>
           </el-form-item>
-          <el-form-item label="总里程" prop="full_lenght">
+          <el-form-item label="总里程" prop="full_length">
             <el-input
-              v-model="DetailForm.full_lenght"
+              v-model="DetailForm.full_length"
               :disabled="true"
             ></el-input>
           </el-form-item>
@@ -702,7 +702,7 @@
 </template>
 
 <script>
-import { getFamiliarStation } from '@services/index';
+import { getFamiliarStation } from '@/services/index';
 
 export default {
   name: 'shiftMoudle',
@@ -799,7 +799,7 @@ export default {
         shuttle_shift_type: '',
         line_type: '',
         duration: '',
-        full_lenght: '',
+        full_length: '',
         status: '',
         station_number: '',
       },
@@ -856,7 +856,7 @@ export default {
         duration: [
           { required: 'true', message: '请输入总用时', trigger: 'blur' },
         ],
-        full_lenght: [
+        full_length: [
           { required: 'true', message: '请输入总里程', trigger: 'blur' },
         ],
         status: [{ required: 'true', message: '请输入状态', trigger: 'blur' }],
@@ -945,7 +945,7 @@ export default {
         duration: [
           { required: 'true', message: '请输入总用时', trigger: 'blur' },
         ],
-        full_lenght: [
+        full_length: [
           { required: 'true', message: '请输入总里程', trigger: 'blur' },
         ],
         status: [{ required: 'true', message: '请输入状态', trigger: 'blur' }],

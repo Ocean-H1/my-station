@@ -22,11 +22,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     // 用于接收主动报错的错误信息
-    const { message, code } = exception.getResponse() as any;
+    const { message } = exception;
     response.status(status).json({
-      code: code || status,
+      status,
       path: request.url,
       err: 'Bad Request',
+      method: request.method,
       message,
       timeStamp: moment().format('yyyy-MM-DD HH:mm:ss'),
     });

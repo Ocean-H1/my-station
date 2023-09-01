@@ -9,11 +9,19 @@ import { QueryController } from './query.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // entities
-import { Station } from './entities/query.entity';
+import {
+  Station,
+  ShuttleLine,
+  Region,
+  ShuttleShift,
+  Car,
+} from './entities/query.entity';
 
 @Module({
   controllers: [QueryController],
   providers: [QueryService],
-  imports: [TypeOrmModule.forFeature([Station])],
+  imports: [
+    TypeOrmModule.forFeature([Station, ShuttleLine, Region, ShuttleShift, Car]),
+  ],
 })
 export class QueryModule {}

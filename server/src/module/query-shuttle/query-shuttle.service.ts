@@ -3,7 +3,7 @@
  * @Author: OceanH
  * @Date: 2023-09-01 18:21:48
  */
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -46,7 +46,9 @@ export class QueryShuttleService {
       },
       select: ['line_id', 'via_regions_name'],
     });
-
+    if (!lineDetail) {
+      throw new HttpException(`暂无该线路数据!`, HttpStatus.BAD_REQUEST);
+    }
     // 线路id 和 途经站信息
     const { line_id } = lineDetail;
     const via_regions_name = lineDetail.via_regions_name.replace(/,/g, '-');
@@ -58,7 +60,12 @@ export class QueryShuttleService {
         shuttle_shift_date,
       },
     });
-
+    if (!shuttle_list) {
+      throw new HttpException(
+        '未查询到符合该条件的班次!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     // 车辆类型
     const car_models = await this.carRepo.find({
       select: ['car_model'],

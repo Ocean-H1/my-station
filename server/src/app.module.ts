@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+
 // 配置数据库连接
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -15,6 +18,9 @@ import { QueryRegionModule } from './module/query-region/query-region.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     // 配置数据库连接
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -32,6 +38,7 @@ import { QueryRegionModule } from './module/query-region/query-region.module';
     QueryStationModule,
     QueryShuttleModule,
     QueryRegionModule,
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [AppService],

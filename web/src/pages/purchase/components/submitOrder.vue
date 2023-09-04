@@ -32,7 +32,7 @@
           </el-table-column>
           <el-table-column label="班次类型" prop="shuttle_shift_type">
           </el-table-column>
-          <el-table-column label="里程" prop="full_lenght"> </el-table-column>
+          <el-table-column label="里程" prop="full_length"> </el-table-column>
           <el-table-column label="车型" prop="car_model"> </el-table-column>
         </el-table>
         <div class="ticketTitle">
@@ -278,8 +278,9 @@
         </div>
 
         <div class="must_know">
-          <el-checkbox v-model="if_know">我已阅读</el-checkbox><router-link to="/help">《购票须知》</router-link> 
-          </div>
+          <el-checkbox v-model="if_know">我已阅读</el-checkbox
+          ><router-link to="/help">《购票须知》</router-link>
+        </div>
         <!-- 提交订单区域 -->
         <div class="submit_order">
           <el-button
@@ -353,50 +354,50 @@ export default {
       },
       // 是否同意购票须知
       if_know: false,
-    }
+    };
   },
   methods: {
     //   查询常用联系人
     async getContactPersons() {
       const { data: res } = await this.$http.get(
-        `/userCenter/getContactPersons`
-      )
+        `/userCenter/getContactPersons`,
+      );
       if (res.code !== 10000) {
-        this.contact_list = []
-        return this.$message.error(res.message)
+        this.contact_list = [];
+        return this.$message.error(res.message);
       }
-      this.contact_list = res.data.contact_person_list
+      this.contact_list = res.data.contact_person_list;
     },
     // 查询常用乘车人
     async getPassagers() {
-      const { data: res } = await this.$http.get(`/userCenter/getPassagers`)
+      const { data: res } = await this.$http.get(`/userCenter/getPassagers`);
       if (res.code !== 10000) {
-        this.passager_list = []
-        return this.$message.error(res.message)
+        this.passager_list = [];
+        return this.$message.error(res.message);
       }
-      this.passager_list = res.data.passager_list
+      this.passager_list = res.data.passager_list;
     },
     // 联系人复选框列表触发事件
     CheckedPersonChange(value) {
-      let checkedCount = value.length
-      this.checkAllPerson = checkedCount === this.contact_list.length
+      let checkedCount = value.length;
+      this.checkAllPerson = checkedCount === this.contact_list.length;
       this.isPersonIndeterminate =
-        checkedCount > 0 && checkedCount < this.contact_list.length
+        checkedCount > 0 && checkedCount < this.contact_list.length;
     },
     // 乘车人复选框列表触发事件
     CheckedPassChange(value) {
-      let checkedCount = value.length
-      this.checkAllPassager = checkedCount === this.passager_list.length
+      let checkedCount = value.length;
+      this.checkAllPassager = checkedCount === this.passager_list.length;
       this.isPassIndeterminate =
-        checkedCount > 0 && checkedCount < this.passager_list.length
+        checkedCount > 0 && checkedCount < this.passager_list.length;
     },
     // 添加乘车人信息
     add_passenger(info = null) {
       if (this.addPasForm.passenger.length === 5) {
-        return this.$message.error('一个订单最多订购 5 张车票！')
+        return this.$message.error('一个订单最多订购 5 张车票！');
       }
       if (info) {
-        return this.addPasForm.passenger.push(info)
+        return this.addPasForm.passenger.push(info);
       }
       // 默认情况下，添加一个空的乘车人信息行
       let params = {
@@ -406,37 +407,37 @@ export default {
         passenger_card_type: '身份证',
         ticket_type: '成人票',
         buying_insurance: false,
-      }
-      this.addPasForm.passenger.push(params)
+      };
+      this.addPasForm.passenger.push(params);
     },
     // 通过checkbox删除乘车人信息
     del_pasBycheckBox(row) {
-      let arr = []
-      const del_id = row.passenger_id
+      let arr = [];
+      const del_id = row.passenger_id;
       this.addPasForm.passenger.forEach((item) => {
         if (item.passenger_id != del_id) {
-          arr.push(item)
+          arr.push(item);
         }
-      })
-      this.addPasForm.passenger = arr
+      });
+      this.addPasForm.passenger = arr;
     },
     // 通过行内按钮删除信息
     del_pasBybutton(index, row) {
-      const del_id = row.passenger_id
-      let arr = []
+      const del_id = row.passenger_id;
+      let arr = [];
       this.checked_passagerList.forEach((item) => {
         if (item.passenger_id != del_id) {
-          arr.push(item)
+          arr.push(item);
         }
-      })
-      this.checked_passagerList = arr
-      this.addPasForm.passenger.splice(index, 1)
+      });
+      this.checked_passagerList = arr;
+      this.addPasForm.passenger.splice(index, 1);
     },
     // 乘车人checkbox值发生变化
     pasBoxChange(checked, passenger) {
       if (checked) {
         // 增加/填充 乘车人信息
-        const { passenger_id, name, card_number, card_type } = passenger
+        const { passenger_id, name, card_number, card_type } = passenger;
         const info = {
           passenger_id,
           passenger_name: name,
@@ -444,35 +445,35 @@ export default {
           passenger_card_type: card_type,
           buying_insurance: false,
           ticket_type: '成人票',
-        }
-        this.add_passenger(info)
+        };
+        this.add_passenger(info);
       } else {
         // 删除/取消 乘车人信息
-        this.del_pasBycheckBox(passenger)
+        this.del_pasBycheckBox(passenger);
       }
     },
     // 联系人checkbox值发生变化
     contactBoxChange(checked, person) {
       if (checked) {
-        const { name, phone_number, email, contact_person_id } = person
+        const { name, phone_number, email, contact_person_id } = person;
         this.contactForm = {
           contact_person_name: name,
           contact_person_phone_number: phone_number,
           contact_person_email: email,
           contact_person_id,
-        }
+        };
       } else {
         this.contactForm = {
           contact_person_name: '',
           contact_person_phone_number: '',
           contact_person_email: '',
           contact_person_id: null,
-        }
+        };
       }
     },
     // 根据身份证号获取出生日期
     getBirth(idCard) {
-      let birth
+      let birth;
       // 二代身份证
       if (idCard.length === 18) {
         birth =
@@ -480,7 +481,7 @@ export default {
           '-' +
           idCard.substring(10, 12) +
           '-' +
-          idCard.substring(12, 14)
+          idCard.substring(12, 14);
       }
       // 一代身份证
       if (idCard.length === 15) {
@@ -490,9 +491,9 @@ export default {
           '-' +
           idCard.substring(8, 10) +
           '-' +
-          idCard.substring(10, 12)
+          idCard.substring(10, 12);
       }
-      return birth
+      return birth;
     },
     // 处理订单提交请求的参数
     handleBookParams() {
@@ -504,42 +505,41 @@ export default {
         contact_person_name: this.contactForm.contact_person_name,
         contact_person_email: this.contactForm.contact_person_name,
         passenger: this.addPasForm.passenger,
-      }
-      this.bookOrder(params)
+      };
+      this.bookOrder(params);
     },
     // 提交订单并预订订单
     bookOrder(params) {
       this.$refs.contactFormRef.validate((valid) => {
-        if (!valid) return
+        if (!valid) return;
         this.$refs.addPasFormRef.validate(async (valid) => {
-          if (!valid) return
-          if(!this.if_know)
-            return this.$message.error('请先同意购票须知！')
+          if (!valid) return;
+          if (!this.if_know) return this.$message.error('请先同意购票须知！');
           const { data: res } = await this.$http.post(
             `/order/bookOrder`,
-            params
-          )
+            params,
+          );
           if (res.code !== 10000) {
-            return this.$message.error(res.message)
+            return this.$message.error(res.message);
           }
-          this.$message.success('提交订单成功！')
+          this.$message.success('提交订单成功！');
 
-          this.$emit('getSteps', 2)
+          this.$emit('getSteps', 2);
           this.$router.push({
             path: '/purchase/confirmOrder',
-            query:{
-              order: JSON.stringify(res.data)
-            }
-          })
-        })
-      })
+            query: {
+              order: JSON.stringify(res.data),
+            },
+          });
+        });
+      });
     },
   },
   created() {
-    this.getContactPersons()
-    this.getPassagers()
+    this.getContactPersons();
+    this.getPassagers();
   },
-}
+};
 </script>
 
 <style scoped>
@@ -578,6 +578,5 @@ export default {
   border-top: 2px solid #2577e3;
   font-size: 16px;
   padding: 10px 0;
-  
 }
 </style>

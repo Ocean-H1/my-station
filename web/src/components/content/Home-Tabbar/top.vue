@@ -2,7 +2,7 @@
   <div class="container">
     <el-row :gutter="20">
       <el-col :span="6"
-        ><div class="grid-content logo">
+        ><div class="grid-content logo" @click="$router.push('/index')">
           <img src="@/assets/img/logo.png" alt="" width="40px" /></div
       ></el-col>
       <el-col :span="12"
@@ -86,6 +86,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .title {

@@ -63,8 +63,8 @@ export default {
     },
     // 获取车站列表(详情及经纬度)
     async getStationList() {
-      const { data: res } = await getAllStations();
-      if (res.code !== 10000) {
+      const [res, err] = await getAllStations();
+      if (err) {
         return this.$message({
           type: 'error',
           message: '获取车站列表失败！',
@@ -73,8 +73,8 @@ export default {
       }
 
       // 保存数据
-      this.stationList1 = res.data.station_list.slice(0, 10);
-      this.stationList2 = res.data.station_list.slice(10, 20);
+      this.stationList1 = res.station_list.slice(0, 10);
+      this.stationList2 = res.station_list.slice(10, 20);
       this.$store.commit('setStationList', res.data.station_list);
     },
   },

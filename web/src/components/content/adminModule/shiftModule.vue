@@ -1103,17 +1103,17 @@ export default {
     },
     // 获取常见车站列表
     async getFamiliarStations() {
-      const { data: res } = await getFamiliarStation();
+      const [res, err] = await getFamiliarStation();
 
-      if (res.code != 10000) {
+      if (err) {
         return this.$message({
           type: 'error',
-          message: res.message,
+          message: err.message,
           duration: 200,
         });
       }
       // 保存数据
-      this.famliar_stations_list = res.data.familiar_stations_list;
+      this.famliar_stations_list = res.familiar_stations_list;
     },
     // 展示编辑班次的对话框
     async showEditDialog(shuttleInfo) {

@@ -15,7 +15,7 @@ Vue.use(ElementUi);
 import NProgress from 'nprogress';
 // 引入nprogress样式文件
 import 'nprogress/nprogress.css';
-// 引入公共js函数 主要是一些公共的方法 比如MD5加密
+// 引入公共js函数 主要是一些公共的方法 比如MD5摘要算法
 import utils from '@/utils/utils.js';
 // import {baseURL} from '../config'
 Vue.config.productionTip = false;
@@ -26,12 +26,14 @@ Vue.prototype.$utils = utils;
 Vue.prototype.$moment = moment;
 // 配置请求的根路径
 axios.defaults.baseURL = "http://localhost:3000/";
+// 跨域请求时携带cookie，默认为false
+axios.defaults.withCredentials = true;
 // 设置request拦截器，在请求之前添加sessionid，展示进度条
 axios.interceptors.request.use((config) => {
   // 展示进度条
   NProgress.start();
-  // 添加SessionId到请求头中
-  config.headers.SessionId = window.sessionStorage.getItem('SessionId');
+  // 添加Bearer Token到请求头中
+  config.headers.Authorization = `Bearer ${window.localStorage.getItem('Token')}`;
   return config;
 });
 

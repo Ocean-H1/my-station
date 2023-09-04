@@ -38,7 +38,18 @@
       <el-form-item label="验证码" prop="check_code">
         <div class="RcodeContainer">
           <div class="checkcode" @click="refreshImg">
-            <img :src="codeImgUrl" alt="图片验证码" width="100px" />
+            <!-- <img :src="codeImgUrl" alt="图片验证码" width="100px" /> -->
+            <img
+              src="https://image.scqckypw.com/static/new/images/refreshen.png"
+              alt="验证码默认图"
+              width="100px"
+              v-show="!checkCodeImg"
+            />
+            <div
+              style="width: 100px"
+              v-html="checkCodeImg"
+              v-show="checkCodeImg"
+            ></div>
           </div>
           <el-input
             v-model="loginForm.check_code"
@@ -56,6 +67,7 @@
 </template>
 
 <script>
+import { loginAsync, getCheckCodeImg } from '@/services/index';
 export default {
   name: 'login',
   data() {
@@ -80,72 +92,65 @@ export default {
           { required: true, message: '请输入验证码', trigger: 'blur' },
         ],
       },
-      //   验证码图片地址
-      codeImgUrl: 'https://image.scqckypw.com/static/new/images/refreshen.png',
-    }
+      checkCodeImg: null,
+    };
   },
   methods: {
     // 点击刷新验证码图片
-    refreshImg() {
-      this.$http
-        .request({
-          url: `/permissions/getCheckCodePicture`,
-          responseType: 'blob',
-          methods: 'get',
-        })
-        .then((res) => {
-          // 将后台返回的二进制图片流转换
-          const myBlob = new window.Blob([res.data], { type: 'image/png' })
-          this.codeImgUrl = window.URL.createObjectURL(myBlob)
-          // 保存sessionid
-          window.sessionStorage.setItem('SessionId', res.headers['session-id'])
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    async refreshImg() {
+      const [res, err] = await getCheckCodeImg();
+
+      if (err) {
+        return this.$message({
+          message: err.message,
+          type: 'error',
+          duration: 3000,
+        });
+      }
+
+      this.checkCodeImg = res;
     },
     // 登录
     login() {
       // 登录前的预校验
       this.$refs.loginFormRef.validate(async (valid) => {
-        if (!valid) return
-        // 拿到接口返回的数据
-        const { data: res } = await this.$http.post('/permissions/login', {
+        if (!valid) return;
+
+        const [res, err] = await loginAsync({
           phone_number: this.loginForm.phone_number,
-          // 将密码进行MD5的16位加密
+          // 将密码进行MD5的16位摘要
           password: this.$utils.md5(this.loginForm.password, 16),
           check_code: this.loginForm.check_code,
-        })
-        // 判断是否登陆成功
-        if (res.code !== 10000) {
+        });
+
+        if (err) {
           return this.$message({
-            message: res.message,
+            message: err.message,
             type: 'error',
-            duration: 2000,
-          })
+            duration: 3000,
+          });
         }
-        
-        // 保存返回的SessionId
-        window.sessionStorage.setItem('SessionId', res.data.SessionId)
+
+        // 保存返回的token
+        window.localStorage.setItem('Token', res.token);
         // 改变用户的登录状态
-        this.$store.dispatch('userLogin',true)
+        this.$store.dispatch('userLogin', true);
         // 用于之后路由守卫判断登录状态
-        sessionStorage.setItem('isLogin',true)
+        sessionStorage.setItem('isLogin', true);
         this.$message({
           message: '登录成功！',
           type: 'success',
           duration: 2000,
-        })
+        });
         // 返回之前浏览的页面
-        if(this.$route.query.redirectPath){
-          return this.$router.go(-1)
+        if (this.$route.query.redirectPath) {
+          return this.$router.go(-1);
         }
-        this.$router.push('/index')
-      })
+        this.$router.push('/index');
+      });
     },
-    
   },
-}
+};
 </script>
 
 <style scoped>

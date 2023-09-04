@@ -3,14 +3,20 @@
  * @Author: OceanH
  * @Date: 2023-08-30 16:02:35
  */
-import http from 'axios';
+import { requestApi } from "./request";
 
 // 获取常用车站列表
 export const getFamiliarStation = async () => {
-  return await http.get(`/query/station/getFamiliarStation?size=20`);
+  return await requestApi({
+    url: `/query/station/getFamiliarStation?size=20`,
+    method: 'get'
+  });
 };
 
 // 获取车站详情信息
 export const getAllStations = async () => {
-  return await http.get(`/query/station/getAllStations`);
+  return await requestApi({
+    url: '/query/station/getAllStations',
+    method: 'get'
+  });
 };

@@ -24,7 +24,9 @@ export class PermissionsService {
       height: 38,
     });
     session.code = captcha.text;
-    res.send(captcha.data);
+    res.send({
+      data: captcha.data,
+    });
   }
 
   // 生成token
@@ -41,9 +43,9 @@ export class PermissionsService {
     check_code: string,
     session,
   ) {
-    const sessionCode = String(session.code);
+    const sessionCode = String(session.code).toLowerCase();
 
-    if (check_code !== sessionCode) {
+    if (check_code.toLowerCase() !== sessionCode) {
       throw new HttpException(
         '验证码错误,请检查后重试!',
         HttpStatus.BAD_REQUEST,
@@ -55,6 +57,7 @@ export class PermissionsService {
       where: {
         phone_number,
       },
+      select: ['password'],
     });
 
     if (!user_info) {

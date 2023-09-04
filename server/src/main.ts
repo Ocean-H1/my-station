@@ -9,7 +9,7 @@ import * as session from 'express-session';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // 开启Cors
-  app.enableCors({ origin: 'http://localhost:8080' });
+  app.enableCors({ origin: 'http://localhost:8080', credentials: true });
   // 全局注册拦截器
   app.useGlobalInterceptors(new TransformInterceptors());
   // 全局注册错误过滤器

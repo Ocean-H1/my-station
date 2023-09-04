@@ -72,14 +72,14 @@ export default {
       const params = {
         size: 20,
       };
-      const { data: res } = await getFamiliarShuttles(params);
-      if (res.code !== 10000) {
+      const [res, err] = await getFamiliarShuttles(params);
+      if (err) {
         return this.$message.error('获取热门线路失败！');
       }
 
       // 保存数据
-      this.lineList1 = res.data.familiar_shuttle_list.slice(0, 10);
-      this.lineList2 = res.data.familiar_shuttle_list.slice(10, 20);
+      this.lineList1 = res.familiar_shuttle_list.slice(0, 10);
+      this.lineList2 = res.familiar_shuttle_list.slice(10, 20);
     },
   },
   created() {

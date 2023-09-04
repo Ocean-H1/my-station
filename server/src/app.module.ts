@@ -15,6 +15,7 @@ import { ManagerModule } from './module/manager/manager.module';
 import { QueryStationModule } from './module/query-station/query-station.module';
 import { QueryShuttleModule } from './module/query-shuttle/query-shuttle.module';
 import { QueryRegionModule } from './module/query-region/query-region.module';
+import { QueryRidecodeModule } from './module/query-ridecode/query-ridecode.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { QueryRegionModule } from './module/query-region/query-region.module';
     QueryShuttleModule,
     QueryRegionModule,
     JwtModule,
+    QueryRidecodeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

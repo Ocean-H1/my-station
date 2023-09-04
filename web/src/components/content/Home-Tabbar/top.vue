@@ -61,8 +61,8 @@ export default {
       // 改变登录态
       this.$store.dispatch('userLogin', false);
       this.$store.dispatch('setPermissions', false);
-      // 清除sessionid
-      window.sessionStorage.clear();
+      // 清除token
+      window.localStorage.clear();
       // 刷新页面
       if (this.$route.path == '/index') {
         this.$router.go(0);

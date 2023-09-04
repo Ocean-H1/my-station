@@ -136,7 +136,7 @@ export default {
         // 改变用户的登录状态
         this.$store.dispatch('userLogin', true);
         // 用于之后路由守卫判断登录状态
-        sessionStorage.setItem('isLogin', true);
+        localStorage.setItem('isLogin', true);
         this.$message({
           message: '登录成功！',
           type: 'success',

@@ -40,10 +40,8 @@ router.beforeEach((to, from, next) => {
   // 开启进度条
   NProgress.start();
 
-  // const isLogin = sessionStorage.getItem('isLogin');
-  // const isRoot = sessionStorage.getItem('isRoot');
-  const isLogin = true;
-  const isRoot = true;
+  const isLogin = localStorage.getItem('isLogin');
+  const isRoot = localStorage.getItem('isRoot');
   if (to.meta.isNeedLogin && !isLogin) {
     alert('您还未登录，请先登录！');
     next(

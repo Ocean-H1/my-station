@@ -22,33 +22,35 @@
 </template>
 
 <script>
-import index from '@pages/index/index.vue'
-import refund from '@pages/refund/refund.vue'
-import help from '@pages/help/help.vue'
-import advise from '@pages/advise/advise.vue'
-import about from '@pages/about/about.vue'
+import index from '@pages/index/index.vue';
+import refund from '@pages/refund/refund.vue';
+import help from '@pages/help/help.vue';
+import advise from '@pages/advise/advise.vue';
+import about from '@pages/about/about.vue';
+import { checkUserPermission } from '@/services/index';
 
 export default {
   name: 'Home-Tabbar',
   data() {
     return {
       isRoot: false,
-    }
+    };
   },
   methods: {
     async checkPermission() {
       // 登录成功后进行权限验证
-      const { data: res } = await this.$http.get(`/manage/checkPermission`)
-      if (res.code == 10000) {
-        // 超级用户
-        // this.$store.dispatch('setPermissions',true)
-        this.isRoot = true
-        sessionStorage.setItem('isRoot', true)
+      const [res, err] = await checkUserPermission();
+      if (err) {
+        return;
+      }
+      if (res.perms_level === 'manager') {
+        this.isRoot = true;
+        localStorage.setItem('isRoot', true);
       }
     },
   },
   created() {
-    this.checkPermission()
+    this.checkPermission();
   },
   components: {
     index,
@@ -57,7 +59,7 @@ export default {
     advise,
     about,
   },
-}
+};
 </script>
 
 <style scoped>

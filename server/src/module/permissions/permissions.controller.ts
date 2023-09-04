@@ -7,7 +7,6 @@ import {
   Body,
   Controller,
   Get,
-  Header,
   HttpException,
   HttpStatus,
   Post,
@@ -22,7 +21,6 @@ export class PermissionsController {
 
   // 生成图片验证码
   @Get('getCheckCodePicture')
-  @Header('Content-Type', 'image/svg+xml')
   async getCheckCodePicture(@Session() session, @Res() res) {
     return await this.permissionsService.getCheckCodePicture(session, res);
   }

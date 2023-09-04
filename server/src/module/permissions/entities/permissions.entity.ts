@@ -49,6 +49,6 @@ export class User {
   total_regions_id: string;
 
   // 用户级别： 管理员/普通用户
-  @Column({ type: 'varchar', select: false })
+  @Column({ type: 'varchar' })
   perms: string;
 }

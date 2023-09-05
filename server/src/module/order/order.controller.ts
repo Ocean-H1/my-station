@@ -1,4 +1,13 @@
-import { Controller, UseGuards, Post, Body, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Post,
+  Body,
+  Get,
+  Query,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -17,6 +26,9 @@ export class OrderController {
   @Get('payOrder')
   @UseGuards(AuthGuard('jwt'))
   async payOrder(@Query('master_order_number') master_order_number: string) {
+    if (!master_order_number) {
+      throw new HttpException('缺少必要参数(订单号)!', HttpStatus.BAD_REQUEST);
+    }
     return await this.orderService.payOrder(master_order_number);
   }
 }

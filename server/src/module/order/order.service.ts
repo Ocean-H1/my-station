@@ -9,7 +9,7 @@ import {
 } from '../query-shuttle/entities/query-shuttle.entity';
 import { IBookOrderParams, IOrderInfo } from './types/index';
 import * as moment from 'moment';
-import { decimalOperator } from '../../utils/index';
+import { decimalStringOperator } from '../../utils/index';
 
 @Injectable()
 export class OrderService {
@@ -25,21 +25,23 @@ export class OrderService {
   ) {}
 
   // 生成订单号
-  createOrderNumber() {
+  createOrderNumber(op?: string) {
     // 平台码 订单号前缀
-    const platform = '625';
+    const childCode = '625'; // 子订单号前缀
+    const masterCode = '713'; // 主订单号前缀
     // 时间戳
     const sysDate = moment().format('YYYYMMDDhhmmss');
     // 随机数
     const r1 = Math.floor(Math.random() * 10);
     const r2 = Math.floor(Math.random() * 10);
     // 订单号
-    const order_number = platform + r1 + sysDate + r2;
+    const order_number =
+      (op === 'master' ? masterCode : childCode) + r1 + sysDate + r2;
 
     return order_number;
   }
 
-  // 提交预定订单
+  // 提交订单(创建订单)
   async bookOrder(body: IBookOrderParams) {
     const { shuttle_shift_id } = body;
     if (!shuttle_shift_id) {
@@ -93,7 +95,7 @@ export class OrderService {
 
     // 订单信息
     let master_total_amount = '0';
-    const master_order_number = this.createOrderNumber();
+    const master_order_number = this.createOrderNumber('master');
     const order_info: IOrderInfo[] = [];
     for (const passenger of passengers) {
       const order: IOrderInfo = {
@@ -112,25 +114,26 @@ export class OrderService {
         passenger_card_number: passenger.passenger_card_number,
         passenger_type: passenger.ticket_type === '半票' ? '儿童' : '成人',
         car_model,
-        total_amount: decimalOperator('add', ticket_price, station_fee),
+        total_amount: decimalStringOperator('add', ticket_price, station_fee),
       };
       // 保险费
       if (passenger.buying_insurance) {
         order.insurance_price = insurance_price;
-        order.total_amount = decimalOperator(
+        order.total_amount = decimalStringOperator(
           'add',
           order.total_amount,
           insurance_price,
         );
       }
       order_info.push(order);
-      // master_total_amount += Number(order.total_amount);
-      master_total_amount = decimalOperator(
+      master_total_amount = decimalStringOperator(
         'add',
         master_total_amount,
         order.total_amount,
       );
     }
+
+    // 保存订单到order_info表中
     return {
       order_info,
       master_order_number,

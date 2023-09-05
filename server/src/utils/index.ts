@@ -5,7 +5,7 @@
  */
 
 // 处理decimal(字符串类型浮点数相加)
-export const decimalOperator = (op: string, ...decimals: string[]) => {
+export const decimalStringOperator = (op: string, ...decimals: string[]) => {
   const nums = Array.from(decimals, (str) => Number(str));
   const addDecimal = () => {
     let result = 0;

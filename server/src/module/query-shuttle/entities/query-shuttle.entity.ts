@@ -64,8 +64,8 @@ export class ShuttleShift {
   @Column()
   unuse_ticket_quantity: number;
 
-  @Column()
-  ticket_price: number;
+  @Column({ type: 'decimal' })
+  ticket_price: string;
 
   @Column()
   shuttle_shift_type: number;
@@ -82,14 +82,14 @@ export class ShuttleShift {
   @Column()
   full_length: string;
 
-  @Column()
-  insurance_price: number;
+  @Column({ type: 'decimal', charset: 'binary' })
+  insurance_price: string;
 
-  @Column()
-  refund_fee: number;
+  @Column({ type: 'decimal' })
+  refund_fee: string;
 
-  @Column()
-  station_fee: number;
+  @Column({ type: 'decimal' })
+  station_fee: string;
 
   @Column()
   star: number;

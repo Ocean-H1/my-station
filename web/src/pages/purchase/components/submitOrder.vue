@@ -298,6 +298,7 @@
 </template>
 
 <script>
+import { bookOrder } from '@/services/index';
 export default {
   name: 'submitOrder',
   data() {
@@ -515,12 +516,11 @@ export default {
         this.$refs.addPasFormRef.validate(async (valid) => {
           if (!valid) return;
           if (!this.if_know) return this.$message.error('请先同意购票须知！');
-          const { data: res } = await this.$http.post(
-            `/order/bookOrder`,
-            params,
-          );
-          if (res.code !== 10000) {
-            return this.$message.error(res.message);
+
+          const [res, err] = await bookOrder(params);
+
+          if (err) {
+            return this.$message.error(err.message);
           }
           this.$message.success('提交订单成功！');
 
@@ -528,7 +528,7 @@ export default {
           this.$router.push({
             path: '/purchase/confirmOrder',
             query: {
-              order: JSON.stringify(res.data),
+              order: JSON.stringify(res),
             },
           });
         });

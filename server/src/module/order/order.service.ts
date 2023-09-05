@@ -92,7 +92,7 @@ export class OrderService {
     });
 
     // 订单信息
-    let master_total_amount = 0;
+    let master_total_amount = '0';
     const master_order_number = this.createOrderNumber();
     const order_info: IOrderInfo[] = [];
     for (const passenger of passengers) {
@@ -124,7 +124,12 @@ export class OrderService {
         );
       }
       order_info.push(order);
-      master_total_amount += Number(order.total_amount);
+      // master_total_amount += Number(order.total_amount);
+      master_total_amount = decimalOperator(
+        'add',
+        master_total_amount,
+        order.total_amount,
+      );
     }
     return {
       order_info,
@@ -132,4 +137,7 @@ export class OrderService {
       master_total_amount,
     };
   }
+
+  // 手机支付接口  返回一个支付二维码
+  async payOrder(master_order_number: string) {}
 }

@@ -12,7 +12,7 @@ export const decimalOperator = (op: string, ...decimals: string[]) => {
     for (const num of nums) {
       result += num;
     }
-    return String(result);
+    return result.toFixed(2);
   };
   switch (op.toLowerCase()) {
     case 'add':

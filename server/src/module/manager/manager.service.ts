@@ -55,6 +55,9 @@ export class ManagerService {
     if (!shuttle_list.length) {
       throw new HttpException('暂无符合条件的班次!', HttpStatus.BAD_REQUEST);
     }
+    for (const shuttle of shuttle_list) {
+      shuttle['status'] = shuttle.is_delete ? '禁用中' : '使用中';
+    }
 
     return {
       shuttle_list,

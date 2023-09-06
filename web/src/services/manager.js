@@ -21,3 +21,12 @@ export const getShuttleInfoList = async (params) => {
     data: params,
   });
 };
+
+// 班次管理-新建班次
+export const createShuttleInfo = async (params) => {
+  return await requestApi({
+    url: '/manager/createShuttleInfo',
+    method: 'post',
+    data: params,
+  });
+};

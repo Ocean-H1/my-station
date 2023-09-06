@@ -689,6 +689,7 @@ import {
   getFamiliarStation,
   getShuttleInfoList,
   getAllRegions,
+  createShuttleInfo,
 } from '@/services/index';
 
 export default {
@@ -779,10 +780,10 @@ export default {
         child_ticket_quantity: null,
         unuse_ticket_quantity: null,
         unuse_child_ticket_quantity: null,
-        ticket_price: null,
-        refund_fee: null,
-        station_fee: null,
-        insurance_price: null,
+        ticket_price: '',
+        refund_fee: '',
+        station_fee: '',
+        insurance_price: '',
         shuttle_shift_type: '',
         line_type: '',
         duration: '',
@@ -1009,6 +1010,8 @@ export default {
         };
         const [res, err] = await getShuttleInfoList(params);
         if (err) {
+          // 清空
+          this.shuttleList = [];
           return this.$message({
             type: 'error',
             message: err?.message,
@@ -1070,17 +1073,14 @@ export default {
     addShuttle() {
       this.$refs.addFormRef.validate(async (valid) => {
         if (!valid) return;
-        // 发送请求
-        const { data: res } = await this.$http.post(
-          `/manage/createShuttleInfo`,
-          this.addForm,
-        );
 
-        if (res.code != 10000) {
+        const [res, err] = await createShuttleInfo(this.addForm);
+
+        if (err) {
           return this.$message({
             type: 'error',
-            message: res.message,
-            duration: 2000,
+            message: err?.message,
+            duration: 3000,
           });
         }
 

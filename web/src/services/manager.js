@@ -12,3 +12,12 @@ export const checkUserPermission = async () => {
     method: 'get'
   });
 };
+
+// 班次管理-查询班次
+export const getShuttleInfoList = async (params) => {
+  return await requestApi({
+    url: '/manager/getShuttleInfoList',
+    method: 'post',
+    data: params,
+  });
+};

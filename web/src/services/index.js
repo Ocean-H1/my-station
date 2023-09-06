@@ -4,3 +4,4 @@ export * from './permission.js';
 export * from './manager.js';
 export * from './order.js';
 export * from './rideCode.js';
+export * from './region.js';

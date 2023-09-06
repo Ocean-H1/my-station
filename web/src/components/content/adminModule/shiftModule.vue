@@ -92,11 +92,18 @@
           prop="shuttle_shift_time"
         ></el-table-column>
         <el-table-column label="票价" prop="ticket_price"></el-table-column>
-        <el-table-column
-          label="班次类型"
-          prop="shuttle_shift_type"
-        ></el-table-column>
-        <el-table-column label="线路类型" prop="line_type"></el-table-column>
+        <el-table-column label="班次类型" prop="shuttle_shift_type">
+          <template slot-scope="scope">
+            <span v-if="scope.row.shuttle_shift_type === 1">流水班</span>
+            <span v-else>固定班</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="线路类型" prop="line_type">
+          <template slot-scope="scope">
+            <span v-if="scope.row.line_type === 1">高速</span>
+            <span v-else>低速</span>
+          </template>
+        </el-table-column>
         <el-table-column
           label="余票"
           prop="unuse_ticket_quantity"
@@ -702,7 +709,11 @@
 </template>
 
 <script>
-import { getFamiliarStation } from '@/services/index';
+import {
+  getFamiliarStation,
+  getShuttleInfoList,
+  getAllRegions,
+} from '@/services/index';
 
 export default {
   name: 'shiftMoudle',
@@ -999,41 +1010,39 @@ export default {
     // 获取地区列表(用于输入建议)
     async getAllRegions() {
       // 发送请求
-      const { data: res } = await this.$http.get(`/query/region/getAllRegions`);
-
-      if (res.code !== 10000) {
+      // const { data: res } = await this.$http.get(`/query/region/getAllRegions`);
+      const [res, err] = await getAllRegions();
+      if (err) {
         return this.$message.error('获取所有地区列表失败!');
       }
 
       // 保存数据
-      this.regionsList = res.data.region_list;
+      this.regionsList = res.region_list;
     },
     // 查询符合条件的班次列表
     getShuttleList() {
       // 发送请求
       this.$refs.QueryFormRef.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.post(
-          `/manage/getShuttleInfoList`,
-          {
-            start_region_id: this.QueryForm.start_region_id,
-            final_region_id: this.QueryForm.final_region_id,
-            shuttle_shift_date: this.QueryForm.shuttle_shift_date,
-            page: this.QueryForm.page,
-            size: this.QueryForm.size,
-          },
-        );
-        // 请求失败
-        if (res.code != 10000)
+        const params = {
+          start_region_id: this.QueryForm.start_region_id,
+          final_region_id: this.QueryForm.final_region_id,
+          shuttle_shift_date: this.QueryForm.shuttle_shift_date,
+          page: this.QueryForm.page,
+          size: this.QueryForm.size,
+        };
+        const [res, err] = await getShuttleInfoList(params);
+        if (err) {
           return this.$message({
             type: 'error',
-            message: res.message,
-            duration: 2000,
+            message: err?.message,
+            duration: 3000,
           });
+        }
 
         this.$message.success('查询班次列表成功！');
         // 保存班次列表
-        this.shuttleList = res.data.shuttle_list;
+        this.shuttleList = res.shuttle_list;
         // 保存数据总量
         this.total = res.total;
       });

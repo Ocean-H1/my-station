@@ -43,7 +43,7 @@ export class ShuttleShift {
   @Column()
   shuttle_shift_time: string;
 
-  @Column()
+  @Column({ default: -1 })
   shuttle_line_id: number;
 
   @Column()
@@ -76,7 +76,7 @@ export class ShuttleShift {
   @Column()
   duration: string;
 
-  @Column()
+  @Column({ default: 1 })
   car_id: number;
 
   @Column()
@@ -91,13 +91,13 @@ export class ShuttleShift {
   @Column({ type: 'decimal' })
   station_fee: string;
 
-  @Column()
+  @Column({ default: 0 })
   star: number;
 
-  @Column()
+  @Column({ default: -1 })
   station_number: string;
 
-  @Column({ select: false })
+  @Column({ select: false, default: 0 })
   is_delete: number;
 }
 

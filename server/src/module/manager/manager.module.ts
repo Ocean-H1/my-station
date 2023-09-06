@@ -11,10 +11,11 @@ import {
   ShuttleLine,
   ShuttleShift,
 } from '../query-shuttle/entities/query-shuttle.entity';
+import { Region } from '../query-region/entities/query-region.entity';
 
 @Module({
   controllers: [ManagerController],
   providers: [ManagerService],
-  imports: [TypeOrmModule.forFeature([ShuttleLine, ShuttleShift])],
+  imports: [TypeOrmModule.forFeature([ShuttleLine, ShuttleShift, Region])],
 })
 export class ManagerModule {}

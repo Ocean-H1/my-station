@@ -50,4 +50,11 @@ export class ManagerController {
       size,
     );
   }
+
+  // 新建班次
+  @Post('createShuttleInfo')
+  @UseGuards(AuthGuard('jwt'))
+  async createShuttleInfo(@Body() body) {
+    return await this.managerService.createShuttleInfo(body);
+  }
 }

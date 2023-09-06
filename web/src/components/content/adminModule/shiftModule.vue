@@ -637,36 +637,12 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="班次类型" prop="shuttle_shift_type">
-            <el-select
-              v-model="DetailForm.shuttle_shift_type"
-              placeholder="固定班/流水班"
-              style="width: 190px"
-              :disabled="true"
-            >
-              <el-option
-                v-for="item in shuttleOpt"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+            <el-input v-model="DetailForm.shuttle_shift_type" :disabled="true">
+            </el-input>
           </el-form-item>
           <el-form-item label="线路类型" prop="line_type">
-            <el-select
-              v-model="DetailForm.line_type"
-              placeholder="高速/低速"
-              style="width: 190px"
-              :disabled="true"
-            >
-              <el-option
-                v-for="item in lineOpt"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+            <el-input v-model="DetailForm.line_type" :disabled="true">
+            </el-input>
           </el-form-item>
           <el-form-item label="总用时" prop="duration">
             <el-input v-model="DetailForm.duration" :disabled="true"></el-input>
@@ -1042,7 +1018,12 @@ export default {
 
         this.$message.success('查询班次列表成功！');
         // 保存班次列表
-        this.shuttleList = res.shuttle_list;
+        this.shuttleList = res.shuttle_list.map((item) => {
+          item.line_type = item.line_type === 1 ? '高速' : '低速';
+          item.shuttle_shift_type =
+            item.shuttle_shift_type === 1 ? '流水班' : '固定班';
+          return item;
+        });
         // 保存数据总量
         this.total = res.total;
       });

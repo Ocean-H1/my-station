@@ -12,4 +12,13 @@ export const bookOrder = async (params) => {
     method: 'post',
     data: params
   });
-}; 
+};
+
+// 支付接口
+export const payOrder = async (params) => {
+  return await requestApi({
+    url: `/order/payOrder`,
+    method: 'get',
+    params,
+  });
+};

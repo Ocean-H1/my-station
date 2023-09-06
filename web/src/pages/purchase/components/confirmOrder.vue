@@ -87,20 +87,25 @@
           支付银行
         </div>
         <div>
-          <img src="@/assets/img/bank.png" alt="" style="width:100%;">
+          <img src="@/assets/img/bank.png" alt="" style="width: 100%" />
         </div>
       </div>
     </div>
 
     <!-- 确认并支付 -->
     <div class="confirm_pay">
-      <el-button type="warning" style="width:160px;height:45px;" @click="confirm">确认并支付</el-button>
+      <el-button
+        type="warning"
+        style="width: 160px; height: 45px"
+        @click="confirm"
+        >确认并支付</el-button
+      >
     </div>
-    
   </div>
 </template>
 
 <script>
+import { payOrder } from '@/services/index';
 export default {
   name: 'confirmOrder',
   data() {
@@ -108,24 +113,31 @@ export default {
       master_orderInfo: JSON.parse(this.$route.query.order) || null,
       // 支付方式
       pay_mode: '扫码支付',
-    }
+    };
   },
   methods: {
-    // 确认并支付
-    confirm() {
-      this.$router.push({
-        path:'/purchase/payQrcode',
-        query:{
-          info: JSON.stringify({
-            master_order_number: this.master_orderInfo.master_order_number
-          }),
-          totalPrice: this.master_orderInfo.master_total_amount
-        },
-      })
+    // 确认支付 跳转支付宝支付页面
+    async confirm() {
+      const { master_order_number, order_info } = this.master_orderInfo;
+      const params = {
+        master_order_number,
+        start_region: order_info[0]?.start_region,
+        final_region: order_info[0]?.final_region,
+      };
+      const [paymentUrl, err] = await payOrder(params);
+      if (err) {
+        this.$message({
+          type: 'error',
+          message: err?.message,
+          duration: 3000,
+        });
+      }
+      this.$emit('getSteps', 3);
+      window.open(paymentUrl, '_self');
     },
   },
   created() {},
-}
+};
 </script>
 
 <style scoped>
@@ -166,14 +178,14 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.pay{
+.pay {
   height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin: 3vh 0;
 }
-.confirm_pay{
+.confirm_pay {
   text-align: center;
 }
 </style>

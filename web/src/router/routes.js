@@ -17,7 +17,6 @@ const purchase = () => import('@pages/purchase/purchase.vue');
 const searchTicket = () => import('@pages/purchase/components/searchTicket.vue');
 const submitOrder = () => import('@pages/purchase/components/submitOrder.vue');
 const confirmOrder = () => import('@pages/purchase/components/confirmOrder.vue');
-const payQrcode = () => import('@pages/purchase/components/payQrcode.vue');
 const getRideCode = () => import('@pages/purchase/components/getRideCode.vue');
 // 找回密码
 const reback = () => import('@/components/content/rebackPsd/rebackPsd.vue');
@@ -196,14 +195,6 @@ const routes = [
           isNeedLogin: true
         },
         component: confirmOrder
-      },
-      {
-        path: 'payQrcode',
-        meta: {
-          title: '购票 | 支付订单',
-          isNeedLogin: true
-        },
-        component: payQrcode
       },
       {
         path: 'getRideCode',

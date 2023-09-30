@@ -27,3 +27,8 @@ export interface IShiftInfo {
   status: string;
   station_number: string;
 }
+
+export enum ShiftStatusEnum {
+  '使用中' = 0,
+  '禁用中' = 1,
+}

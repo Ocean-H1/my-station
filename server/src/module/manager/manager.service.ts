@@ -5,7 +5,7 @@ import {
   ShuttleShift,
 } from '../query-shuttle/entities/query-shuttle.entity';
 import { Repository } from 'typeorm';
-import { IShiftInfo } from 'src/types';
+import { IShiftInfo, ShiftStatusEnum } from 'src/types';
 import { Region } from '../query-region/entities/query-region.entity';
 import { ILineInfo } from 'src/types/line';
 
@@ -142,5 +142,30 @@ export class ManagerService {
 
     await this.shuttleShiftRepo.save(shift_info);
     return {};
+  }
+
+  // 修改班次状态
+  async changeShuttleStatus(shift_id: number, new_status: string) {
+    await this.shuttleShiftRepo
+      .update(
+        {
+          shift_id,
+        },
+        {
+          is_delete: ShiftStatusEnum[new_status],
+        },
+      )
+      .catch(() => {
+        throw new HttpException('修改失败!', HttpStatus.BAD_REQUEST);
+      });
+
+    return {
+      status: await this.shuttleShiftRepo.findOne({
+        where: {
+          shift_id,
+        },
+        select: ['is_delete', 'shift_id'],
+      }),
+    };
   }
 }

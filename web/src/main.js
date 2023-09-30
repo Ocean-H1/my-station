@@ -28,7 +28,7 @@ Vue.prototype.$moment = moment;
 axios.defaults.baseURL = "http://localhost:3000/";
 // 跨域请求时携带cookie，默认为false
 axios.defaults.withCredentials = true;
-// 设置request拦截器，在请求之前添加sessionid，展示进度条
+// 设置request拦截器，在请求之前添加token，展示进度条
 axios.interceptors.request.use((config) => {
   // 展示进度条
   NProgress.start();

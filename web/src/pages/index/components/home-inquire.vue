@@ -102,7 +102,11 @@
 </template>
 
 <script>
-import { getCheckCodeImg, sendRideCode } from '@/services/index';
+import {
+  getCheckCodeImg,
+  sendRideCode,
+  getShuttleList,
+} from '@/services/index';
 export default {
   name: 'home-inquire',
   data() {
@@ -202,19 +206,18 @@ export default {
       // 表单验证
       this.$refs.QueryFormRef.validate(async (valid) => {
         if (!valid) return;
-
-        const { data: res } = await this.$http.get(
-          `/query/shuttle/getShuttleList`,
-          {
-            params: {
-              shuttle_shift_date: this.QueryForm.shuttle_shift_date,
-              start_region_id: this.QueryForm.start_region_id,
-              final_region_id: this.QueryForm.final_region_id,
-            },
-          },
-        );
-        if (res.code !== 10000) {
-          return this.$message.error(res.message);
+        const params = {
+          shuttle_shift_date: this.QueryForm.shuttle_shift_date,
+          start_region_id: this.QueryForm.start_region_id,
+          final_region_id: this.QueryForm.final_region_id,
+        };
+        const [res, err] = await getShuttleList(params);
+        if (err) {
+          return this.$message({
+            type: 'error',
+            message: err?.message,
+            duration: 3000,
+          });
         }
         this.$message.success('查询成功!');
         // 控制车票查询页面的默认状态

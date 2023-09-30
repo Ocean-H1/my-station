@@ -30,3 +30,12 @@ export const createShuttleInfo = async (params) => {
     data: params,
   });
 };
+
+// 班次管理-更新班次使用状态
+export const changeShiftStatus = async (params) => {
+  return await requestApi({
+    url: '/manager/changeShuttleStatus',
+    method: 'get',
+    params,
+  });
+};

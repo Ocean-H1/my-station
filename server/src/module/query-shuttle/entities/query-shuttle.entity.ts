@@ -97,7 +97,7 @@ export class ShuttleShift {
   @Column({ default: -1 })
   station_number: string;
 
-  @Column({ select: false, default: 0 })
+  @Column({ default: 0 })
   is_delete: number;
 }
 

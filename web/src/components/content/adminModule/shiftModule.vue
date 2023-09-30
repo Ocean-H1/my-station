@@ -121,7 +121,7 @@
                 inactive-color="#ff4949"
                 active-value="使用中"
                 inactive-value="禁用中"
-                @change="userStateChange(scope.row)"
+                @change="(newStatus) => userStateChange(newStatus, scope.row)"
               >
               </el-switch>
             </el-tooltip>
@@ -690,6 +690,7 @@ import {
   getShuttleInfoList,
   getAllRegions,
   createShuttleInfo,
+  changeShiftStatus,
 } from '@/services/index';
 
 export default {
@@ -1042,26 +1043,20 @@ export default {
       this.getShuttleList();
     },
     // 修改班次状态
-    async userStateChange(userinfo) {
-      const { data: res } = await this.$http.get(
-        `/manage/changeShuttleStatus`,
-        {
-          params: {
-            Shuttle_id: userinfo.shift_id,
-          },
-        },
-      );
+    async userStateChange(newStatus, shiftInfo) {
+      const [res, err] = await changeShiftStatus({
+        shift_id: shiftInfo.shift_id,
+        new_status: newStatus,
+      });
 
-      if (res.code != 10000) {
-        // 修改状态失败
-        userinfo.status = !userinfo.status;
+      if (err) {
+        shiftInfo.status = !shiftInfo.status;
         return this.$message({
           type: 'error',
-          message: res.message,
-          duration: 2000,
+          message: err?.message,
+          duration: 3000,
         });
       }
-
       this.$message.success('状态更新成功！');
     },
     // 监听新建班次对话框的关闭事件

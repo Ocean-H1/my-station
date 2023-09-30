@@ -7,6 +7,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { ManagerService } from './manager.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -56,5 +57,18 @@ export class ManagerController {
   @UseGuards(AuthGuard('jwt'))
   async createShuttleInfo(@Body() body) {
     return await this.managerService.createShuttleInfo(body);
+  }
+
+  // 修改班次状态
+  @Get('changeShuttleStatus')
+  @UseGuards(AuthGuard('jwt'))
+  async changeShuttleStatus(
+    @Query('shift_id') shift_id: number,
+    @Query('new_status') new_status: string,
+  ) {
+    if (!shift_id || !new_status) {
+      throw new HttpException(`缺少必要参数!`, HttpStatus.BAD_REQUEST);
+    }
+    return await this.managerService.changeShuttleStatus(shift_id, new_status);
   }
 }

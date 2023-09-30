@@ -20,12 +20,13 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       // 请求头中获取token
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // 密钥
       secretOrKey: config.get('TOKEN_SECRET'),
     });
   }
 
   async validate({ sub: user_id }) {
-    // 这里返回的值会被添加自动到请求对象的user属性中
+    // 这里返回的用户信息会被添加自动到请求对象的user属性中
     return await this.userRepo.findOne({
       where: {
         user_id,
